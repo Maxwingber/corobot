@@ -27,7 +27,7 @@ class TopLevelDialog(ComponentDialog):
         self.add_dialog(TextPrompt(TextPrompt.__name__))
         self.add_dialog(NumberPrompt(NumberPrompt.__name__))
         confirm = ConfirmPrompt(ConfirmPrompt.__name__)
-        confirm.confirm_choices = [Choice("Ja"), Choice("Nein")]
+        confirm.confirm_choices = [Choice("Ja", synonyms=["Yes"]), Choice("Nein", synonyms=["No"])]
         self.add_dialog(confirm)
 
         self.add_dialog(SymptomsSelectionDialog(SymptomsSelectionDialog.__name__))
