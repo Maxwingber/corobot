@@ -11,7 +11,9 @@ from botbuilder.dialogs import (
 from botbuilder.dialogs.prompts import PromptOptions, TextPrompt, NumberPrompt
 
 from data_models import UserProfile
+from dialogs.contact_to_infected import ContactsSelectionDialog
 from dialogs.symptoms_selection_dialog import SymptomsSelectionDialog
+
 
 
 class TopLevelDialog(ComponentDialog):
@@ -25,6 +27,8 @@ class TopLevelDialog(ComponentDialog):
         self.add_dialog(NumberPrompt(NumberPrompt.__name__))
 
         self.add_dialog(SymptomsSelectionDialog(SymptomsSelectionDialog.__name__))
+        self.add_dialog(ContactsSelectionDialog(ContactsSelectionDialog.__name__))
+
 
         self.add_dialog(
             WaterfallDialog(
@@ -78,6 +82,12 @@ class TopLevelDialog(ComponentDialog):
 
         # Otherwise, start the review selection dialog.
         return await step_context.begin_dialog(SymptomsSelectionDialog.__name__)
+
+    async def start_constacts_step(
+        self, step_context: WaterfallStepContext
+    ) -> DialogTurnResult:
+
+        return await step_context.begin_dialog(ContactsDialog.__name__)
 
     async def acknowledgement_step(
         self, step_context: WaterfallStepContext
