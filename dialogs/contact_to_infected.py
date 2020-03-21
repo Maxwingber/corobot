@@ -7,8 +7,7 @@ from botbuilder.dialogs import (
     WaterfallDialog,
     WaterfallStepContext,
     DialogTurnResult,
-    ComponentDialog,
-    NumberPrompt, ConfirmPrompt)
+    ComponentDialog)
 from botbuilder.dialogs.prompts import ChoicePrompt, PromptOptions, ConfirmPrompt, NumberPrompt, DateTimePrompt
 from botbuilder.dialogs.choices import Choice, FoundChoice
 from botbuilder.core import MessageFactory, UserState
@@ -60,8 +59,9 @@ class ContactsSelectionDialog(ComponentDialog):
         )
 
         return await step_context.prompt(
-            ConfirmPrompt.__name__,
+            ChoicePrompt.__name__,
             PromptOptions(
+                choices=[Choice("Ja"), Choice("Nein")],
                 prompt=MessageFactory.text("Hatten Sie engen Kontakt zu einem bestätigten Fall?")
             ),
         )
@@ -69,18 +69,15 @@ class ContactsSelectionDialog(ComponentDialog):
     async def date_confirmedcasecontact_step(
         self, step_context: WaterfallStepContext
     ) -> DialogTurnResult:
-
-        if step_context.result:
+        print("[DEBUG] Received by German choice prompt: " + step_context.result.value)
+        if step_context.result.value == "Ja":
             # User said "yes" so we will be prompting for the date of their contact.
             # WaterfallStep always finishes with the end of the Waterfall or with another dialog,
             # here it is a Prompt Dialog.
             return await step_context.prompt(
                 DateTimePrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("An welchem Tag hatten Sie das letzte Mal Kontakt (Format TT.MM.JJJJ)?."),
-                    retry_prompt=MessageFactory.text(
-                        "Sie müssen das Datum im Format TT.MM.JJJJ eingeben."
-                    ),
+                    prompt=MessageFactory.text("An welchem Tag hatten Sie das letzte Mal Kontakt? Bitte nennen Sie es im Format TT.MM.JJJJ (z.B. 03.03.2020)."),
                 ),
             )
         # User said "no" so we will skip the next step. Give 00000000 as the date.

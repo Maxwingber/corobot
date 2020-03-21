@@ -7,7 +7,7 @@ from botbuilder.dialogs import (
     DialogTurnResult,
     WaterfallStepContext,
     ComponentDialog,
-    ConfirmPrompt, Choice)
+    ConfirmPrompt, Choice, ChoicePrompt)
 from botbuilder.dialogs.prompts import PromptOptions, TextPrompt, NumberPrompt
 
 from data_models import UserProfile
@@ -26,8 +26,7 @@ class TopLevelDialog(ComponentDialog):
 
         self.add_dialog(TextPrompt(TextPrompt.__name__))
         self.add_dialog(NumberPrompt(NumberPrompt.__name__))
-        confirm = ConfirmPrompt(ConfirmPrompt.__name__)
-        self.add_dialog(confirm)
+        self.add_dialog(ChoicePrompt(ChoicePrompt.__name__))
 
         self.add_dialog(SymptomsSelectionDialog(SymptomsSelectionDialog.__name__))
         self.add_dialog(ContactsSelectionDialog(ContactsSelectionDialog.__name__))
@@ -59,7 +58,7 @@ class TopLevelDialog(ComponentDialog):
 
         # Ask the user to enter their name.
         prompt_options = PromptOptions(
-            prompt=MessageFactory.text("Bitte nennen Sie Ihren vollen Namen.")
+            prompt=MessageFactory.text("Bitte nennen Sie mir Ihren vollen Namen.")
         )
         return await step_context.prompt(TextPrompt.__name__, prompt_options)
 
@@ -70,7 +69,7 @@ class TopLevelDialog(ComponentDialog):
 
         # Ask the user to enter their age.
         prompt_options = PromptOptions(
-            prompt=MessageFactory.text("Bitte geben Sie Ihr Alter ein.")
+            prompt=MessageFactory.text("Wie alt sind Sie?")
         )
         return await step_context.prompt(NumberPrompt.__name__, prompt_options)
 
@@ -81,15 +80,17 @@ class TopLevelDialog(ComponentDialog):
         user_profile.age = step_context.result
 
         prompt_options = PromptOptions(
-            prompt=MessageFactory.text("Sind Sie seit 01.01.2020 gereist?")
+            choices = [Choice("Ja"), Choice("Nein")],
+            prompt = MessageFactory.text("Waren Sie seit 01.01.2020 im Ausland?")
         )
 
-        return await step_context.begin_dialog(ConfirmPrompt.__name__, prompt_options)
+        return await step_context.begin_dialog(ChoicePrompt.__name__, prompt_options)
 
     async def start_riskcountry_selection_step(
         self, step_context: WaterfallStepContext
     ) -> DialogTurnResult:
-        riskcountry_true = step_context.result
+        print("[DEBUG] Received by German choice prompt: " + step_context.result.value)
+        riskcountry_true = step_context.result.value == "Ja"
 
         if not riskcountry_true:
             print("[DEBUG] Skipping risk country selection")
@@ -105,7 +106,7 @@ class TopLevelDialog(ComponentDialog):
 
         if "Fieber" in user_profile.risk_countries:
             prompt_options = PromptOptions(
-                prompt=MessageFactory.text("Sie haben Fieber. Wie hoch ist ihr Fieber in Grad Celsius?")
+                prompt=MessageFactory.text("Wie hoch ist Ihr Fieber in Grad Celsius (°C)?")
             )
             return await step_context.prompt(NumberPrompt.__name__, prompt_options)
         else:
@@ -144,7 +145,7 @@ class TopLevelDialog(ComponentDialog):
 
         # Thank them for participating.
         await step_context.context.send_activity(
-            MessageFactory.text(f"Danke für Ihre Mithilfe, {user_profile.name}.")
+            MessageFactory.text(f"Danke für Ihre Mithilfe und das Beantworten der Fragen, {user_profile.name}. ")
         )
 
         # Exit the dialog, returning the collected user information.
