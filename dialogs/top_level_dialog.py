@@ -173,6 +173,17 @@ class TopLevelDialog(ComponentDialog):
             MessageFactory.text(f"Danke für Ihre Mithilfe und das Beantworten der Fragen, {user_profile.name}. ")
         )
 
+        await step_context.context.send_activity(
+            MessageFactory.text(f"Bei weiterer Kommunikation mit Behörden können Sie folgende Zeile anhängen und sparen "
+                                f"sich lästige erneute Nachfragen.")
+        )
+
+        await step_context.context.send_activity(
+            MessageFactory.text(user_profile.__dict__)
+        )
+
+        print("[DEBUG] Final user object created:\n" + str(user_profile.__dict__))
+
         # Exit the dialog, returning the collected user information.
         return await step_context.end_dialog(user_profile)
 
