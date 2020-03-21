@@ -20,7 +20,7 @@ class RiskCountrySelectionDialog(ComponentDialog):
         )
 
         self.RISK_COUNTRIES_SELECTED = "value-symptomsSelected"
-        self.DONE_OPTION = "Das war's"
+        self.DONE_OPTION = "Keine"
 
         self.riskcountry_options = [
             "Ägypten",
@@ -57,11 +57,11 @@ class RiskCountrySelectionDialog(ComponentDialog):
 
         if len(selected) == 0:
             message = (
-                f"Im Folgenden finden Sie eine Liste von Regionen. Waren Sie in letzter Zeit in einer dieser Regionen? Falls nicht, sagen Sie `{self.DONE_OPTION}`."
+                f"Im Folgenden finden Sie eine Liste von Regionen. Waren Sie in letzter Zeit in einer dieser Regionen? Falls nicht, sagen Sie **{self.DONE_OPTION}**."
             )
         else:
             message = (
-                f"Sie waren in **{selected[len(selected)-1]}**. Waren Sie in letzter Zeit in einer weiteren Region? Falls nicht, sagen Sie `{self.DONE_OPTION}`."
+                f"Sie waren in **{selected[len(selected)-1]}**. Waren Sie in letzter Zeit in einer weiteren Region? Falls nicht, sagen Sie **{self.DONE_OPTION}**."
             )
 
         # create a list of options to choose, with already selected items removed.
@@ -73,7 +73,7 @@ class RiskCountrySelectionDialog(ComponentDialog):
         # prompt with the list of choices
         prompt_options = PromptOptions(
             prompt=MessageFactory.text(message),
-            retry_prompt=MessageFactory.text("Bitte wählen Sie eine Region oder sagen Sie " + self.DONE_OPTION + "."),
+            retry_prompt=MessageFactory.text("Bitte wählen Sie eine Region oder sagen Sie **" + self.DONE_OPTION + "**."),
             choices=self._to_choices(options),
         )
         return await step_context.prompt(ChoicePrompt.__name__, prompt_options)

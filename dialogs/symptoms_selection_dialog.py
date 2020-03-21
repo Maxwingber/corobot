@@ -8,7 +8,7 @@ from botbuilder.dialogs import (
     WaterfallStepContext,
     DialogTurnResult,
     ComponentDialog,
-)
+    FindChoicesOptions)
 from botbuilder.dialogs.prompts import ChoicePrompt, PromptOptions
 from botbuilder.dialogs.choices import Choice, FoundChoice
 from botbuilder.core import MessageFactory
@@ -21,7 +21,7 @@ class SymptomsSelectionDialog(ComponentDialog):
         )
 
         self.SYMPTOMS_SELECTED = "value-symptomsSelected"
-        self.DONE_OPTION = "Das war's"
+        self.DONE_OPTION = "Keins"
 
         self.symptom_options = [
             "Husten",
@@ -31,7 +31,9 @@ class SymptomsSelectionDialog(ComponentDialog):
             "Lungenentzündung",
         ]
 
-        self.add_dialog(ChoicePrompt(ChoicePrompt.__name__))
+        choice = ChoicePrompt(ChoicePrompt.__name__)
+        choice.recognizer_options = FindChoicesOptions(allow_partial_matches=True)
+        self.add_dialog(choice)
         self.add_dialog(
             WaterfallDialog(
                 WaterfallDialog.__name__, [self.selection_step, self.loop_step]
@@ -53,11 +55,11 @@ class SymptomsSelectionDialog(ComponentDialog):
 
         if len(selected) == 0:
             message = (
-                f"Im Folgenden finden Sie eine Liste relevanter Symptome. Leiden Sie an einem der Symptome? Falls nicht, sagen Sie `{self.DONE_OPTION}`."
+                f"Im Folgenden finden Sie eine Liste relevanter Symptome. Leiden Sie an einem der Symptome? Falls nicht, sagen Sie **{self.DONE_OPTION}**."
             )
         else:
             message = (
-                f"Sie leiden an **{selected[len(selected)-1]}**. Leiden Sie an weiteren Symptomen? Falls nicht, sagen Sie `{self.DONE_OPTION}`."
+                f"Sie leiden an **{selected[len(selected)-1]}**. Leiden Sie an weiteren Symptomen? Falls nicht, sagen Sie **{self.DONE_OPTION}**."
             )
 
         # create a list of options to choose, with already selected items removed.
@@ -69,7 +71,7 @@ class SymptomsSelectionDialog(ComponentDialog):
         # prompt with the list of choices
         prompt_options = PromptOptions(
             prompt=MessageFactory.text(message),
-            retry_prompt=MessageFactory.text("Bitte nennen Sie eines der relevanten Symptome oder `{self.DONE_OPTION}`."),
+            retry_prompt=MessageFactory.text("Bitte nennen Sie eines der relevanten Symptome oder **{self.DONE_OPTION}**."),
             choices=self._to_choices(options),
         )
         return await step_context.prompt(ChoicePrompt.__name__, prompt_options)
