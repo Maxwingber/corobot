@@ -33,7 +33,6 @@ class DialogAndWelcomeBot(DialogBot):
             if member.id != turn_context.activity.recipient.id:
                 await turn_context.send_activity(
                     MessageFactory.text(
-                        f"Welcome to Complex Dialog Bot {member.name}. This bot provides a complex conversation, with "
-                        f"multiple dialogs. Type anything to get started. "
+                        f"Wilkommen beim Corobot {member.name}. Sagen Sie Hallo um mich aufzuwecken."
                     )
                 )

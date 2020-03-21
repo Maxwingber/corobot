@@ -7,12 +7,13 @@ from botbuilder.dialogs import (
     DialogTurnResult,
     WaterfallStepContext,
     ComponentDialog,
-)
+    ConfirmPrompt)
 from botbuilder.dialogs.prompts import PromptOptions, TextPrompt, NumberPrompt
 
 from data_models import UserProfile
 from dialogs.contact_to_infected import ContactsSelectionDialog
 from dialogs.symptoms_selection_dialog import SymptomsSelectionDialog
+from dialogs.riskcountry_selection_dialog import RiskCountrySelectionDialog
 
 
 
@@ -25,10 +26,13 @@ class TopLevelDialog(ComponentDialog):
 
         self.add_dialog(TextPrompt(TextPrompt.__name__))
         self.add_dialog(NumberPrompt(NumberPrompt.__name__))
+        self.add_dialog(ConfirmPrompt(ConfirmPrompt.__name__, default_locale="de"))
 
         self.add_dialog(SymptomsSelectionDialog(SymptomsSelectionDialog.__name__))
         self.add_dialog(ContactsSelectionDialog(ContactsSelectionDialog.__name__))
 
+
+        self.add_dialog(RiskCountrySelectionDialog(RiskCountrySelectionDialog.__name__))
 
         self.add_dialog(
             WaterfallDialog(
@@ -36,7 +40,9 @@ class TopLevelDialog(ComponentDialog):
                 [
                     self.name_step,
                     self.age_step,
-                    self.start_selection_step,
+                    self.confirm_riskcountry_step,
+                    self.start_riskcountry_selection_step,
+                    self.start_symptom_selection_step,
                     self.acknowledgement_step,
                 ],
             )
@@ -65,29 +71,51 @@ class TopLevelDialog(ComponentDialog):
         )
         return await step_context.prompt(NumberPrompt.__name__, prompt_options)
 
-    async def start_selection_step(
+    async def confirm_riskcountry_step(
+        self, step_context: WaterfallStepContext
+    ) -> DialogTurnResult:
+        user_profile: UserProfile = step_context.values[self.USER_INFO]
+        user_profile.age = step_context.result
+
+        prompt_options = PromptOptions(
+            prompt=MessageFactory.text("Sind Sie seit 01.01.2020 gereist?")
+        )
+
+        return await step_context.begin_dialog(ConfirmPrompt.__name__, prompt_options)
+
+    async def start_riskcountry_selection_step(
+        self, step_context: WaterfallStepContext
+    ) -> DialogTurnResult:
+
+        user_profile: UserProfile = step_context.values[self.USER_INFO]
+        riskcountry_true = step_context.result
+
+        if not riskcountry_true:
+            return await step_context.next([])
+        else:
+            print("[DEBUG] Entering risk country selection")
+            return await step_context.begin_dialog(RiskCountrySelectionDialog.__name__)
+
+
+
+    async def start_symptom_selection_step(
         self, step_context: WaterfallStepContext
     ) -> DialogTurnResult:
         # Set the user's age to what they entered in response to the age prompt.
         user_profile: UserProfile = step_context.values[self.USER_INFO]
-        user_profile.age = step_context.result
-
-        if user_profile.age < 25:
-            # If they are too young, skip the review selection dialog, and pass an empty list to the next step.
-            await step_context.context.send_activity(
-                MessageFactory.text("Sie müssen 25 Jahre als sein um teilzunehmen.")
-            )
-
-            return await step_context.next([])
+        user_profile.risk_countries = step_context.result
 
         # Otherwise, start the review selection dialog.
         return await step_context.begin_dialog(SymptomsSelectionDialog.__name__)
 
+<<<<<<< HEAD
     async def start_constacts_step(
         self, step_context: WaterfallStepContext
     ) -> DialogTurnResult:
 
         return await step_context.begin_dialog(ContactsDialog.__name__)
+=======
+>>>>>>> 4cba9a280a41f4df6f5e375034e0088b11a5b596
 
     async def acknowledgement_step(
         self, step_context: WaterfallStepContext
