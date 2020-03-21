@@ -83,7 +83,7 @@ class TopLevelDialog(ComponentDialog):
         self, step_context: WaterfallStepContext
     ) -> DialogTurnResult:
         user_profile: UserProfile = step_context.values[self.USER_INFO]
-        user_profile.age = step_context.result
+        user_profile.age = int(step_context.result)
 
         prompt_options = PromptOptions(
             choices = [Choice("Ja"), Choice("Nein")],
@@ -105,29 +105,7 @@ class TopLevelDialog(ComponentDialog):
             print("[DEBUG] Entering risk country selection")
             return await step_context.begin_dialog(RiskCountrySelectionDialog.__name__)
 
-    async def temparature_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
-        # Set the user's name to what they entered in response to the name prompt.
-        user_profile = step_context.values[self.USER_INFO]
-        user_profile.risk_countries = step_context.result
 
-        if "Fieber" in user_profile.risk_countries:
-            prompt_options = PromptOptions(
-                prompt=MessageFactory.text("Wie hoch ist Ihr Fieber in Grad Celsius (°C)?")
-            )
-            return await step_context.prompt(NumberPrompt.__name__, prompt_options)
-        else:
-            print("[DEBUG] Skipping fever temparature input")
-            return await step_context.next(0)
-
-    async def start_contacts_step(
-        self, step_context: WaterfallStepContext
-    ) -> DialogTurnResult:
-        # Set the user's age to what they entered in response to the age prompt.
-        user_profile: UserProfile = step_context.values[self.USER_INFO]
-        user_profile.fever_temp = step_context.result
-
-        # Otherwise, start the contacts dialog.
-        return await step_context.begin_dialog(ContactsSelectionDialog.__name__)
 
     async def start_symptom_selection_step(
         self, step_context: WaterfallStepContext
@@ -135,14 +113,38 @@ class TopLevelDialog(ComponentDialog):
         # Set the user's age to what they entered in response to the age prompt.
         print("[DEBUG] Arrived in symptom selection")
         user_profile: UserProfile = step_context.values[self.USER_INFO]
-        user_profile.dates = step_context.result
+        user_profile.risk_countries = step_context.result
 
         # Otherwise, start the review selection dialog.
         return await step_context.begin_dialog(SymptomsSelectionDialog.__name__)
 
+    async def temparature_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+        # Set the user's name to what they entered in response to the name prompt.
+        user_profile = step_context.values[self.USER_INFO]
+        user_profile.symptoms = step_context.result
+
+        if "Fieber" in user_profile.symptoms:
+            prompt_options = PromptOptions(
+                prompt=MessageFactory.text("Wie hoch ist Ihr Fieber in Grad Celsius (°C)?")
+            )
+            return await step_context.prompt(TextPrompt.__name__, prompt_options)
+        else:
+            print("[DEBUG] Skipping fever temparature input")
+            return await step_context.next(0)
+
+    async def start_contacts_step(
+            self, step_context: WaterfallStepContext
+    ) -> DialogTurnResult:
+        # Set the user's age to what they entered in response to the age prompt.
+        user_profile: UserProfile = step_context.values[self.USER_INFO]
+        user_profile.fever_temp = float(step_context.result.replace(",", "."))
+
+        # Otherwise, start the contacts dialog.
+        return await step_context.begin_dialog(ContactsSelectionDialog.__name__)
+
     async def job_claim_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
         user_profile: UserProfile = step_context.values[self.USER_INFO]
-        user_profile.symptoms = step_context.result
+        user_profile.contacts = step_context.result
         return await step_context.begin_dialog(ChoicePrompt.__name__, PromptOptions(
             prompt=MessageFactory.text("Arbeiten Sie in einem systemkritischen Bereich?"),
             choices=[Choice("Ja"), Choice("Nein")]
