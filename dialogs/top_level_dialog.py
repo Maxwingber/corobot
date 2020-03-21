@@ -130,7 +130,7 @@ class TopLevelDialog(ComponentDialog):
             return await step_context.prompt(TextPrompt.__name__, prompt_options)
         else:
             print("[DEBUG] Skipping fever temparature input")
-            return await step_context.next(0)
+            return await step_context.next("0")
 
     async def start_contacts_step(
             self, step_context: WaterfallStepContext
