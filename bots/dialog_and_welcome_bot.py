@@ -31,6 +31,7 @@ class DialogAndWelcomeBot(DialogBot):
         for member in members_added:
             # Greet anyone that was not the target (recipient) of this message.
             if member.id != turn_context.activity.recipient.id:
+                turn_context.activity.locale = "de"
                 await turn_context.send_activity(
                     MessageFactory.text(
                         f"Wilkommen beim **Corobot**! Sagen Sie **Hallo**, **Grüß' Gott**, **Servus**, **Moin** oder die"

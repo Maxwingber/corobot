@@ -7,7 +7,7 @@ from botbuilder.dialogs import (
     DialogTurnResult,
     WaterfallStepContext,
     ComponentDialog,
-    ConfirmPrompt, Choice)
+    ConfirmPrompt, Choice, ChoicePrompt)
 from botbuilder.dialogs.prompts import PromptOptions, TextPrompt, NumberPrompt
 
 from data_models import UserProfile
@@ -26,9 +26,7 @@ class TopLevelDialog(ComponentDialog):
 
         self.add_dialog(TextPrompt(TextPrompt.__name__))
         self.add_dialog(NumberPrompt(NumberPrompt.__name__))
-        confirm = ConfirmPrompt(ConfirmPrompt.__name__)
-        confirm.confirm_choices = [Choice("Ja", synonyms=["Yes"]), Choice("Nein", synonyms=["No"])]
-        self.add_dialog(confirm)
+        self.add_dialog(ChoicePrompt(ChoicePrompt.__name__))
 
         self.add_dialog(SymptomsSelectionDialog(SymptomsSelectionDialog.__name__))
         self.add_dialog(ContactsSelectionDialog(ContactsSelectionDialog.__name__))
@@ -82,15 +80,17 @@ class TopLevelDialog(ComponentDialog):
         user_profile.age = step_context.result
 
         prompt_options = PromptOptions(
-            prompt=MessageFactory.text("Waren Sie seit 01.01.2020 im Ausland?")
+            choices = [Choice("Ja"), Choice("Nein")],
+            prompt = MessageFactory.text("Waren Sie seit 01.01.2020 im Ausland?")
         )
 
-        return await step_context.begin_dialog(ConfirmPrompt.__name__, prompt_options)
+        return await step_context.begin_dialog(ChoicePrompt.__name__, prompt_options)
 
     async def start_riskcountry_selection_step(
         self, step_context: WaterfallStepContext
     ) -> DialogTurnResult:
-        riskcountry_true = step_context.result
+        print("[DEBUG] Received by German choice prompt: " + step_context.result.value)
+        riskcountry_true = step_context.result.value == "Ja"
 
         if not riskcountry_true:
             print("[DEBUG] Skipping risk country selection")
