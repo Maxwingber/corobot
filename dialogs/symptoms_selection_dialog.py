@@ -58,7 +58,7 @@ class SymptomsSelectionDialog(ComponentDialog):
         else:
             message = (
                 f"Sie leiden an **{selected[len(selected)-1]}**. Wählen Sie weitere Symptome "
-                f"oder wählen sie `{self.DONE_OPTION}` falls Sie an keinem weiteren der Symtpome leiden. "
+                f"oder wählen sie `{self.DONE_OPTION}` falls Sie an keinem weiteren Symptom leiden. "
             )
 
         # create a list of options to choose, with already selected items removed.

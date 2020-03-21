@@ -45,6 +45,7 @@ class TopLevelDialog(ComponentDialog):
                     self.confirm_riskcountry_step,
                     self.start_riskcountry_selection_step,
                     self.start_symptom_selection_step,
+                    self.temparature_step,
                     self.start_contacts_step,
                     self.acknowledgement_step,
                 ],
@@ -100,12 +101,25 @@ class TopLevelDialog(ComponentDialog):
             print("[DEBUG] Entering risk country selection")
             return await step_context.begin_dialog(RiskCountrySelectionDialog.__name__)
 
+    async def temparature_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+        # Set the user's name to what they entered in response to the name prompt.
+        user_profile = step_context.values[self.USER_INFO]
+        user_profile.risk_countries = step_context.result
+
+        if "Fieber" in user_profile.risk_countries:
+            prompt_options = PromptOptions(
+                prompt=MessageFactory.text("Sie haben Fieber. Wie hoch ist ihr Fieber in Grad Celsius?")
+            )
+            return await step_context.prompt(NumberPrompt.__name__, prompt_options)
+        else:
+            return 0
+
     async def start_contacts_step(
         self, step_context: WaterfallStepContext
     ) -> DialogTurnResult:
         # Set the user's age to what they entered in response to the age prompt.
         user_profile: UserProfile = step_context.values[self.USER_INFO]
-        user_profile.risk_countries = step_context.result
+        user_profile.fever_temp = step_context.result
 
         # Otherwise, start the review selection dialog.
         return await step_context.begin_dialog(ContactsSelectionDialog.__name__)
