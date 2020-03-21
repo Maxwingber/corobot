@@ -166,7 +166,7 @@ class TopLevelDialog(ComponentDialog):
         # Set the user's company selection to what they entered in the review-selection dialog.
         user_profile: UserProfile = step_context.values[self.USER_INFO]
         if step_context.result.value != "**Keine**":
-                user_profile.critical_job = step_context.result
+                user_profile.critical_job = step_context.result.value
 
         # Thank them for participating.
         await step_context.context.send_activity(
