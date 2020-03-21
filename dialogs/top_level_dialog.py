@@ -89,6 +89,7 @@ class TopLevelDialog(ComponentDialog):
         riskcountry_true = step_context.result
 
         if not riskcountry_true:
+            print("[DEBUG] Skipping risk country selection")
             return await step_context.next([])
         else:
             print("[DEBUG] Entering risk country selection")

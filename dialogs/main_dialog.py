@@ -34,15 +34,6 @@ class MainDialog(ComponentDialog):
     async def final_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
         user_info: UserProfile = step_context.result
 
-        companies = (
-            "Keine Symptome"
-            if len(user_info.symptoms) == 0
-            else " und ".join(user_info.symptoms)
-        )
-        status = f"Sie haben die Symptome {companies}."
-
-        await step_context.context.send_activity(MessageFactory.text(status))
-
         # store the UserProfile
         accessor = self.user_state.create_property("UserProfile")
         await accessor.set(step_context.context, user_info)
