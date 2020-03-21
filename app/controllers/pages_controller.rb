@@ -1,5 +1,7 @@
 class PagesController < ApplicationController
   def home
+    @question = Question.first
+
   end
 
   # def show

@@ -15,14 +15,52 @@ puts 'Starts Seeding...'
 puts '   Creating Questions'
 
 Question.create!({
-  name: "eins",
+  tag: 1,
   text: 'Hier ist die erste Frage'
+})
+Question.create!({
+  tag: 2,
+  text: 'Hier ist die zweite Frage'
+})
+Question.create!({
+  tag: 3,
+  text: 'Hier ist die dritte Frage'
 })
 
 puts '   Creating Answers'
 
 Answer.create!({
-  question: Question.find_by(name: "eins"),
-  link_question: 1,
-  text: 'Hier ist die erste Frage'
+  question: Question.find_by(tag: 1),
+  text: 'Antwort 1',
+  next_question_tag: 2
+})
+
+Answer.create!({
+  question: Question.find_by(tag: 1),
+  text: 'Antwort 2',
+  next_question_tag: 3
+})
+
+Answer.create!({
+  question: Question.find_by(tag: 2),
+  text: 'abc',
+  next_question_tag: 2
+})
+
+Answer.create!({
+  question: Question.find_by(tag: 2),
+  text: 'xyz',
+  next_question_tag: 3
+})
+
+Answer.create!({
+  question: Question.find_by(tag: 3),
+  text: '123',
+  next_question_tag: 3
+})
+
+Answer.create!({
+  question: Question.find_by(tag: 3),
+  text: '345',
+  next_question_tag: 3
 })

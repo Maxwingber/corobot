@@ -17,7 +17,7 @@ ActiveRecord::Schema.define(version: 2020_03_21_083830) do
 
   create_table "answers", force: :cascade do |t|
     t.string "text"
-    t.integer "link_question"
+    t.integer "next_question_tag"
     t.bigint "question_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -25,7 +25,7 @@ ActiveRecord::Schema.define(version: 2020_03_21_083830) do
   end
 
   create_table "questions", force: :cascade do |t|
-    t.string "name"
+    t.string "tag"
     t.string "text"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
