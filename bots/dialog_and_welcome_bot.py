@@ -33,6 +33,7 @@ class DialogAndWelcomeBot(DialogBot):
             if member.id != turn_context.activity.recipient.id:
                 await turn_context.send_activity(
                     MessageFactory.text(
-                        f"Wilkommen beim **Corobot**! Sagen Sie **Hallo**, um mich aufzuwecken."
+                        f"Wilkommen beim **Corobot**! Sagen Sie **Hallo**, **Grüß' Gott**, **Servus**, **Moin** oder die"
+                        f" Begrüßung Ihrer Wahl, um mich aufzuwecken."
                     )
                 )

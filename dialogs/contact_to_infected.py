@@ -56,7 +56,7 @@ class ContactsSelectionDialog(ComponentDialog):
         )
         await step_context.context.send_activity(
             MessageFactory.text(
-            f"Al enger Kontakt gilt Kontakt von Angesicht zu Angesicht länger als 15 Minuten, oder direkter, physischer Kontakt (Berührung, Händeschütteln, Küssen), oder Kontakt mit oder Austausch von Körperflüssigkeiten, oder Teilen einer Wohnung.")
+            f"Als enger Kontakt gilt Kontakt von Angesicht zu Angesicht länger als 15 Minuten, oder direkter, physischer Kontakt (Berührung, Händeschütteln, Küssen), oder Kontakt mit oder Austausch von Körperflüssigkeiten, oder Teilen einer Wohnung.")
         )
 
         return await step_context.prompt(
@@ -77,7 +77,7 @@ class ContactsSelectionDialog(ComponentDialog):
             return await step_context.prompt(
                 DateTimePrompt.__name__,
                 PromptOptions(
-                    prompt=MessageFactory.text("An welchem Tag hatten Sie das letzte Mal Kontakt (Format TTMMJJJJ)?."),
+                    prompt=MessageFactory.text("An welchem Tag hatten Sie das letzte Mal Kontakt? Bitte nennen Sie es im Format TT.MM.JJJJ (z.B. 03.03.2020)."),
                 ),
             )
         # User said "no" so we will skip the next step. Give 00000000 as the date.

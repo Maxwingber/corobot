@@ -21,14 +21,14 @@ class SymptomsSelectionDialog(ComponentDialog):
         )
 
         self.SYMPTOMS_SELECTED = "value-symptomsSelected"
-        self.DONE_OPTION = "Fertig"
+        self.DONE_OPTION = "Das war's"
 
         self.symptom_options = [
             "Husten",
             "Fieber",
             "Schnupfen",
-            "Durchfall",
             "Kopfschmerzen",
+            "Lungenentzündung",
         ]
 
         self.add_dialog(ChoicePrompt(ChoicePrompt.__name__))
@@ -53,12 +53,11 @@ class SymptomsSelectionDialog(ComponentDialog):
 
         if len(selected) == 0:
             message = (
-                f"Bitte wählen Sie ein Symptom an dem Sie leiden oder `{self.DONE_OPTION}` falls Sie an keinem der Symtpome leiden."
+                f"Im Folgenden finden Sie eine Liste relevanter Symptome. Leiden Sie an einem der Symptome? Falls nicht, sagen Sie `{self.DONE_OPTION}`."
             )
         else:
             message = (
-                f"Sie leiden an **{selected[len(selected)-1]}**. Wählen Sie weitere Symptome "
-                f"oder wählen sie `{self.DONE_OPTION}` falls Sie an keinem weiteren Symptom leiden. "
+                f"Sie leiden an **{selected[len(selected)-1]}**. Leiden Sie an weiteren Symptomen? Falls nicht, sagen Sie `{self.DONE_OPTION}`."
             )
 
         # create a list of options to choose, with already selected items removed.
@@ -70,7 +69,7 @@ class SymptomsSelectionDialog(ComponentDialog):
         # prompt with the list of choices
         prompt_options = PromptOptions(
             prompt=MessageFactory.text(message),
-            retry_prompt=MessageFactory.text("Bitte wählen Sie Symptome aus an denen Sie leiden."),
+            retry_prompt=MessageFactory.text("Bitte nennen Sie eines der relevanten Symptome oder `{self.DONE_OPTION}`."),
             choices=self._to_choices(options),
         )
         return await step_context.prompt(ChoicePrompt.__name__, prompt_options)
