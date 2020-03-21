@@ -7,7 +7,7 @@ from botbuilder.dialogs import (
     DialogTurnResult,
     WaterfallStepContext,
     ComponentDialog,
-    ConfirmPrompt)
+    ConfirmPrompt, Choice)
 from botbuilder.dialogs.prompts import PromptOptions, TextPrompt, NumberPrompt
 
 from data_models import UserProfile
@@ -24,7 +24,9 @@ class TopLevelDialog(ComponentDialog):
 
         self.add_dialog(TextPrompt(TextPrompt.__name__))
         self.add_dialog(NumberPrompt(NumberPrompt.__name__))
-        self.add_dialog(ConfirmPrompt(ConfirmPrompt.__name__, default_locale="de"))
+        confirm = ConfirmPrompt(ConfirmPrompt.__name__, default_locale="de")
+        confirm.confirm_choices=[Choice("Ja"), Choice("Nein")]
+        self.add_dialog(confirm)
 
         self.add_dialog(SymptomsSelectionDialog(SymptomsSelectionDialog.__name__))
 
