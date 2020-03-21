@@ -26,8 +26,7 @@ class TopLevelDialog(ComponentDialog):
 
         self.add_dialog(TextPrompt(TextPrompt.__name__))
         self.add_dialog(NumberPrompt(NumberPrompt.__name__))
-        confirm = ConfirmPrompt(ConfirmPrompt.__name__, default_locale="de")
-        confirm.confirm_choices=[Choice("Ja"), Choice("Nein")]
+        confirm = ConfirmPrompt(ConfirmPrompt.__name__)
         self.add_dialog(confirm)
 
         self.add_dialog(SymptomsSelectionDialog(SymptomsSelectionDialog.__name__))
@@ -90,8 +89,6 @@ class TopLevelDialog(ComponentDialog):
     async def start_riskcountry_selection_step(
         self, step_context: WaterfallStepContext
     ) -> DialogTurnResult:
-
-        user_profile: UserProfile = step_context.values[self.USER_INFO]
         riskcountry_true = step_context.result
 
         if not riskcountry_true:
@@ -112,7 +109,8 @@ class TopLevelDialog(ComponentDialog):
             )
             return await step_context.prompt(NumberPrompt.__name__, prompt_options)
         else:
-            return 0
+            print("[DEBUG] Skipping fever temparature input")
+            return await step_context.next(0)
 
     async def start_contacts_step(
         self, step_context: WaterfallStepContext
@@ -128,6 +126,7 @@ class TopLevelDialog(ComponentDialog):
         self, step_context: WaterfallStepContext
     ) -> DialogTurnResult:
         # Set the user's age to what they entered in response to the age prompt.
+        print("[DEBUG] Arrived in symptom selection")
         user_profile: UserProfile = step_context.values[self.USER_INFO]
         user_profile.risk_countries = step_context.result
 
