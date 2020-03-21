@@ -120,7 +120,7 @@ class TopLevelDialog(ComponentDialog):
         user_profile: UserProfile = step_context.values[self.USER_INFO]
         user_profile.fever_temp = step_context.result
 
-        # Otherwise, start the review selection dialog.
+        # Otherwise, start the contacts dialog.
         return await step_context.begin_dialog(ContactsSelectionDialog.__name__)
 
     async def start_symptom_selection_step(
@@ -129,7 +129,7 @@ class TopLevelDialog(ComponentDialog):
         # Set the user's age to what they entered in response to the age prompt.
         print("[DEBUG] Arrived in symptom selection")
         user_profile: UserProfile = step_context.values[self.USER_INFO]
-        user_profile.risk_countries = step_context.result
+        user_profile.dates = step_context.result
 
         # Otherwise, start the review selection dialog.
         return await step_context.begin_dialog(SymptomsSelectionDialog.__name__)
