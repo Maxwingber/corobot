@@ -7,8 +7,7 @@ from botbuilder.dialogs import (
     WaterfallDialog,
     WaterfallStepContext,
     DialogTurnResult,
-    ComponentDialog,
-    ConfirmPrompt)
+    ComponentDialog, FindChoicesOptions)
 from botbuilder.dialogs.prompts import ChoicePrompt, PromptOptions
 from botbuilder.dialogs.choices import Choice, FoundChoice
 from botbuilder.core import MessageFactory
@@ -34,8 +33,9 @@ class RiskCountrySelectionDialog(ComponentDialog):
             "Gyeongsangbuk-do (Südkorea)",
             "Kalifornien, Washington oder New York (USA)",
         ]
-
-        self.add_dialog(ChoicePrompt(ChoicePrompt.__name__))
+        choice = ChoicePrompt(ChoicePrompt.__name__)
+        choice.recognizer_options = FindChoicesOptions(allow_partial_matches=True)
+        self.add_dialog(choice)
         self.add_dialog(
             WaterfallDialog(
                 WaterfallDialog.__name__, [self.selection_step, self.loop_step]
