@@ -100,7 +100,15 @@ class TopLevelDialog(ComponentDialog):
             print("[DEBUG] Entering risk country selection")
             return await step_context.begin_dialog(RiskCountrySelectionDialog.__name__)
 
+    async def start_contacts_step(
+        self, step_context: WaterfallStepContext
+    ) -> DialogTurnResult:
+        # Set the user's age to what they entered in response to the age prompt.
+        user_profile: UserProfile = step_context.values[self.USER_INFO]
+        user_profile.risk_countries = step_context.result
 
+        # Otherwise, start the review selection dialog.
+        return await step_context.begin_dialog(ContactsSelectionDialog.__name__)
 
     async def start_symptom_selection_step(
         self, step_context: WaterfallStepContext
@@ -129,12 +137,4 @@ class TopLevelDialog(ComponentDialog):
         # Exit the dialog, returning the collected user information.
         return await step_context.end_dialog(user_profile)
 
-    async def start_contacts_step(
-        self, step_context: WaterfallStepContext
-    ) -> DialogTurnResult:
-        # Set the user's age to what they entered in response to the age prompt.
-        user_profile: UserProfile = step_context.values[self.USER_INFO]
-        user_profile.contacts = step_context.result
 
-        # Otherwise, start the review selection dialog.
-        return await step_context.begin_dialog(ContactsSelectionDialog.__name__)
