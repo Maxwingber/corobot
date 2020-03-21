@@ -14,13 +14,13 @@ from botbuilder.dialogs.choices import Choice, FoundChoice
 from botbuilder.core import MessageFactory
 
 
-class ReviewSelectionDialog(ComponentDialog):
+class SymptomsSelectionDialog(ComponentDialog):
     def __init__(self, dialog_id: str = None):
-        super(ReviewSelectionDialog, self).__init__(
-            dialog_id or ReviewSelectionDialog.__name__
+        super(SymptomsSelectionDialog, self).__init__(
+            dialog_id or SymptomsSelectionDialog.__name__
         )
 
-        self.COMPANIES_SELECTED = "value-companiesSelected"
+        self.SYMPTOMS_SELECTED = "value-symptomsSelected"
         self.DONE_OPTION = "Fertig"
 
         self.symptom_options = [
@@ -49,7 +49,7 @@ class ReviewSelectionDialog(ComponentDialog):
         selected: [
             str
         ] = step_context.options if step_context.options is not None else []
-        step_context.values[self.COMPANIES_SELECTED] = selected
+        step_context.values[self.SYMPTOMS_SELECTED] = selected
 
         if len(selected) == 0:
             message = (
@@ -82,7 +82,7 @@ class ReviewSelectionDialog(ComponentDialog):
         return choice_list
 
     async def loop_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
-        selected: List[str] = step_context.values[self.COMPANIES_SELECTED]
+        selected: List[str] = step_context.values[self.SYMPTOMS_SELECTED]
         choice: FoundChoice = step_context.result
         done = choice.value == self.DONE_OPTION
 
@@ -96,5 +96,5 @@ class ReviewSelectionDialog(ComponentDialog):
 
         # Otherwise, repeat this dialog, passing in the selections from this iteration.
         return await step_context.replace_dialog(
-            ReviewSelectionDialog.__name__, selected
+            SymptomsSelectionDialog.__name__, selected
         )

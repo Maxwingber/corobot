@@ -11,7 +11,7 @@ from botbuilder.dialogs import (
 from botbuilder.dialogs.prompts import PromptOptions, TextPrompt, NumberPrompt
 
 from data_models import UserProfile
-from dialogs.review_selection_dialog import ReviewSelectionDialog
+from dialogs.symptoms_selection_dialog import SymptomsSelectionDialog
 
 
 class TopLevelDialog(ComponentDialog):
@@ -24,7 +24,7 @@ class TopLevelDialog(ComponentDialog):
         self.add_dialog(TextPrompt(TextPrompt.__name__))
         self.add_dialog(NumberPrompt(NumberPrompt.__name__))
 
-        self.add_dialog(ReviewSelectionDialog(ReviewSelectionDialog.__name__))
+        self.add_dialog(SymptomsSelectionDialog(SymptomsSelectionDialog.__name__))
 
         self.add_dialog(
             WaterfallDialog(
@@ -77,14 +77,14 @@ class TopLevelDialog(ComponentDialog):
             return await step_context.next([])
 
         # Otherwise, start the review selection dialog.
-        return await step_context.begin_dialog(ReviewSelectionDialog.__name__)
+        return await step_context.begin_dialog(SymptomsSelectionDialog.__name__)
 
     async def acknowledgement_step(
         self, step_context: WaterfallStepContext
     ) -> DialogTurnResult:
         # Set the user's company selection to what they entered in the review-selection dialog.
         user_profile: UserProfile = step_context.values[self.USER_INFO]
-        user_profile.companies_to_review = step_context.result
+        user_profile.symptoms = step_context.result
 
         # Thank them for participating.
         await step_context.context.send_activity(

@@ -36,8 +36,8 @@ class MainDialog(ComponentDialog):
 
         companies = (
             "Keine Symptome"
-            if len(user_info.companies_to_review) == 0
-            else " und ".join(user_info.companies_to_review)
+            if len(user_info.symptoms) == 0
+            else " und ".join(user_info.symptoms)
         )
         status = f"Sie haben die Symptome {companies}."
 
