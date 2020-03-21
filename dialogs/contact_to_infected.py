@@ -28,7 +28,6 @@ class ContactsSelectionDialog(ComponentDialog):
             WaterfallDialog(
                 WaterfallDialog.__name__,
                 [
-                    #self.close_contact_step,
                     self.confirm_confirmedcasecontact_step,
                     self.date_confirmedcasecontact_step]
             )
@@ -45,21 +44,25 @@ class ContactsSelectionDialog(ComponentDialog):
 
         self.initial_dialog_id = WaterfallDialog.__name__
 
-    #async def close_contact_step(
-    #        self, step_context: WaterfallStepContext
-    #) -> DialogTurnResult:
-    #    await step_context.context.send_activity(
-    #        MessageFactory.text(f"Als enger Kontakt gilt ...")
-    #    )
+
 
     async def confirm_confirmedcasecontact_step(
         self, step_context: WaterfallStepContext
     ) -> DialogTurnResult:
 
+        await step_context.context.send_activity(
+            MessageFactory.text(
+                "Finden wir heraus, ob Sie Kontakt zu einem bestätigten Covid-19-Fall hatten.")
+        )
+        await step_context.context.send_activity(
+            MessageFactory.text(
+            f"Al enger Kontakt gilt Kontakt von Angesicht zu Angesicht länger als 15 Minuten, oder direkter, physischer Kontakt (Berührung, Händeschütteln, Küssen), oder Kontakt mit oder Austausch von Körperflüssigkeiten, oder Teilen einer Wohnung.")
+        )
+
         return await step_context.prompt(
             ConfirmPrompt.__name__,
             PromptOptions(
-                prompt=MessageFactory.text("Hatten Sie Kontakt zu einem bestätigten Fall?")
+                prompt=MessageFactory.text("Hatten Sie engen Kontakt zu einem bestätigten Fall?")
             ),
         )
 
@@ -77,9 +80,8 @@ class ContactsSelectionDialog(ComponentDialog):
                     prompt=MessageFactory.text("An welchem Tag hatten Sie das letzte Mal Kontakt (Format TTMMJJJJ)?."),
                 ),
             )
-
-            # User said "no" so we will skip the next step. Give 00000000 as the date.
-        return await step_context.next()
+        # User said "no" so we will skip the next step. Give 00000000 as the date.
+        return await step_context.next("01.01.2000")
 
 
 
