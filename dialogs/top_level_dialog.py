@@ -7,7 +7,7 @@ from botbuilder.dialogs import (
     DialogTurnResult,
     WaterfallStepContext,
     ComponentDialog,
-    ConfirmPrompt, Choice, ChoicePrompt)
+    ConfirmPrompt, Choice, ChoicePrompt, ChoiceFactory, FindChoicesOptions, ListStyle, DialogTurnStatus)
 from botbuilder.dialogs.prompts import PromptOptions, TextPrompt, NumberPrompt
 
 from data_models import UserProfile
@@ -26,7 +26,10 @@ class TopLevelDialog(ComponentDialog):
 
         self.add_dialog(TextPrompt(TextPrompt.__name__))
         self.add_dialog(NumberPrompt(NumberPrompt.__name__))
-        self.add_dialog(ChoicePrompt(ChoicePrompt.__name__))
+
+        choice = ChoicePrompt(ChoicePrompt.__name__)
+        choice.recognizer_options = FindChoicesOptions(allow_partial_matches=True)
+        self.add_dialog(choice)
 
         self.add_dialog(SymptomsSelectionDialog(SymptomsSelectionDialog.__name__))
         self.add_dialog(ContactsSelectionDialog(ContactsSelectionDialog.__name__))
@@ -45,6 +48,8 @@ class TopLevelDialog(ComponentDialog):
                     self.start_symptom_selection_step,
                     self.temparature_step,
                     self.start_contacts_step,
+                    self.job_claim_step,
+                    self.job_type_step,
                     self.acknowledgement_step,
                 ],
             )
@@ -69,7 +74,8 @@ class TopLevelDialog(ComponentDialog):
 
         # Ask the user to enter their age.
         prompt_options = PromptOptions(
-            prompt=MessageFactory.text("Wie alt sind Sie?")
+            prompt=MessageFactory.text("Wie alt sind Sie?"),
+            retry_prompt=MessageFactory.text("Bitte geben Sie Ihr Alter als Zahl an.")
         )
         return await step_context.prompt(NumberPrompt.__name__, prompt_options)
 
@@ -129,19 +135,38 @@ class TopLevelDialog(ComponentDialog):
         # Set the user's age to what they entered in response to the age prompt.
         print("[DEBUG] Arrived in symptom selection")
         user_profile: UserProfile = step_context.values[self.USER_INFO]
-        user_profile.risk_countries = step_context.result
+        # TODO save contacts dates
 
         # Otherwise, start the review selection dialog.
         return await step_context.begin_dialog(SymptomsSelectionDialog.__name__)
 
+    async def job_claim_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+        user_profile: UserProfile = step_context.values[self.USER_INFO]
+        user_profile.symptoms = step_context.result
+        return await step_context.begin_dialog(ChoicePrompt.__name__, PromptOptions(
+            prompt=MessageFactory.text("Arbeiten Sie in einem systemkritischen Bereich?"),
+            choices=[Choice("Ja"), Choice("Nein")]
+        ))
 
+    async def job_type_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+        if step_context.result.value == "Ja":
+            print("[DEBUG] Recognized system cricital job claim")
+            return await step_context.begin_dialog(ChoicePrompt.__name__, PromptOptions(
+                prompt=MessageFactory.text("Zu welcher systemkritischen Gruppe gehören Sie?"),
+                choices=["Polizei", "Feuerwehr", "Richter", "Staatsanwälte", "Justizvollzug", "Rettungsdienst", "THW",
+                         "Katastrophenschutz", "Mediziner", "Pfleger", "Apotheher", "**Keine**"],
+                style=ListStyle.list_style
+            ))
+        else:
+            return await step_context.next(Choice("**Keine**"))
 
     async def acknowledgement_step(
         self, step_context: WaterfallStepContext
     ) -> DialogTurnResult:
         # Set the user's company selection to what they entered in the review-selection dialog.
         user_profile: UserProfile = step_context.values[self.USER_INFO]
-        user_profile.symptoms = step_context.result
+        if step_context.result.value != "**Keine**":
+                user_profile.critical_job = step_context.result
 
         # Thank them for participating.
         await step_context.context.send_activity(
