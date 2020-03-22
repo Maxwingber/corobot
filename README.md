@@ -4,7 +4,7 @@
 ![WirVsVirus Hackathon Logo](assets/Logo_Projekt_01.png)
 
 ## Problem
-Während des [WirVsVirus](https://wirvsvirushackathon.org/) Hackathon haben wir Gesundheitsämter gefragt, welche Probleme bei der Identifizierung von Fällen von COVID-19 bestehen. Wir hatten eine Antwortrate von unglaublichen 1%! Zum Glück haben wir über 400 Gesundheitsämter kontaktiert. 😉
+Während des [WirVsVirus](https://wirvsvirushackathon.org/) Hackathon haben wir Gesundheitsämter gefragt, welche Probleme bei der Identifizierung von Fällen von COVID-19 bestehen. Wir hatten eine Antwortrate von unglaublichen 1,75%! Zum Glück haben wir über 400 Gesundheitsämter kontaktiert. 😉
 
 Die Ergebnisse: 
 * Viele Riskikofaktoren werden wimmer wieder abgefragt: Auslandsaufenthalte, Kontakte zu Infizierten der Risikoklassen 1 und 2, Symptome
@@ -26,7 +26,7 @@ Ein besonderer Dank gebührt folgenden Gesundheitsämtern. Sie haben sich trotz 
 
 **Corobot** ermöglicht die automatisierte Datenaufnahme und -auswertung bei Menschen, die aufgrund der COVID-19-Pandemie in Deutschland die lokalen Gesundheitsämter kontaktieren. **Corobot** ist mit jedem beliebigem Frontend verknüpfbar und kann dadurch auf einer [Website](https://corobot2020.z16.web.core.windows.net/), in einem [Telegram-Bot](t.me/Corobotbot) oder am Telefon als Sprachcomputer kontaktiert werden. Die Möglichkeit zur Integration als Sprachcomputer ist besonders für Menschen ohne Internetzugang sowie zur Integration in Bürgerhotlines extrem wichtig. 
 
-Abhängig von den angegebenen Risikofaktoren werden peronalisierte Informationen und Verhaltensratschläge angezeigt. Das ermittelte Risikoprofil und die Stammdaten werden bei Bedarf als Data Takeout angeboten statt zentral gespeichert, um diese maschinen- und menschenlesbar, gesammelt und datenschutzfreundlich an das lokale Gesundheitsamt übermittelbar zu machen. Dadurch wird **Corobot** die Gespräche in Hotlines verkürzen, einen höheren Durchsatz erzugen und damit die Wartezeiten für BügerInnen verkürzen.
+Abhängig von den angegebenen Risikofaktoren werden peronalisierte Informationen und Verhaltensratschläge angezeigt. Das ermittelte Risikoprofil und die Stammdaten werden bei Bedarf als Data Takeout angeboten statt zentral gespeichert, um diese maschinen- und menschenlesbar, gesammelt und datenschutzfreundlich an das lokale Gesundheitsamt übermittelbar zu machen. Dadurch wird **Corobot** die Gespräche in Hotlines verkürzen, einen höheren Durchsatz erzeugen und damit die Wartezeiten für Bügerinnen und Bürger verkürzen.
 
 ## How To
 
