@@ -1,4 +1,4 @@
-**Dieses Projekt ist WORK IN PROGRESS und nur zu Testzwecken zu verwenden.**
+*Dieses Projekt ist WORK IN PROGRESS und nur zu Testzwecken zu verwenden.*
 # Corobot 
 
 ![WirVsVirus Hackathon Logo](assets/Logo_Projekt_01.png)
