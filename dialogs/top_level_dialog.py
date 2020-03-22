@@ -205,6 +205,15 @@ class TopLevelDialog(ComponentDialog):
             # Start the personal data dialog.
             return await step_context.begin_dialog(PersonalDataDialog.__name__)
 
+        if user_profile.risk_countries_bool is True and user_profile.critical_symptoms_bool is True:
+            # Thank them for participating.
+            await step_context.context.send_activity(
+                MessageFactory.text(
+                    f"Da Sie sich in den letzten 14 Tagen in einer Risikoregion aufgehalten haben und für Covid-19-typische Symptome zeigen, **melden Sie sich bitte bei Ihrem zuständigen Gesundheitsamt**. Außerdem bitten wir Sie noch einige persönliche Daten für die Übermittlung an das Gesundheitsamt bereitzustellen. **Überwachen Sie bitte zudem Ihre Symptome** und **begeben Sie sich in häusliche Quarantäne**. Empfehlungen zu Ihrem weiteren Handeln finden Sie auf rki.de")
+            )
+            # Start the personal data dialog.
+            return await step_context.begin_dialog(PersonalDataDialog.__name__)
+
         if user_profile.contact_risk_2_bool is True:
             # Thank them for participating.
             await step_context.context.send_activity(
@@ -214,7 +223,34 @@ class TopLevelDialog(ComponentDialog):
             # Start the personal data dialog.
             return await step_context.begin_dialog(PersonalDataDialog.__name__)
 
-        if user_profile.critical_symptoms_bool == True:
+        if user_profile.critical_symptoms_bool is True and user_profile.critical_job is True:
+            # Thank them for participating.
+            await step_context.context.send_activity(
+                MessageFactory.text(
+                    f"Sie gelten nicht als Kontaktperson, arbeiten jedoch in einem systemkritischen Beruf. Bitte **melden Sie sich bei Ihrem zuständigen Gesundheitsamt**. Außerdem bitten wir Sie noch einige persönliche Daten für die Übermittlung an das Gesundheitsamt bereitzustellen. **Überwachen Sie zudem bitte Ihre Symptome** und **begeben Sie sich in häusliche Quarantäne**. Empfehlungen zu Ihrem weiteren Handeln finden Sie auf rki.de")
+            )
+            # Start the personal data dialog.
+            return await step_context.begin_dialog(PersonalDataDialog.__name__)
+
+        if user_profile.risk_countries_bool is True:
+            # Thank them for participating.
+            await step_context.context.send_activity(
+                MessageFactory.text(
+                    f"Da Sie sich in den letzten 14 Tagen in einer Risikoregion aufgehalten haben, **überwachen Sie bitte ob Sie Covid-19-typische Symptome entwickeln** und **begeben Sie sich in häusliche Quarantäne**. Empfehlungen zu Ihrem weiteren Handeln finden Sie auf rki.de")
+            )
+            # Start the personal data dialog.
+            return await step_context.next(PersonalData())
+
+        if user_profile.critical_symptoms_bool is True and user_profile.age > 59:
+            # Thank them for participating.
+            await step_context.context.send_activity(
+                MessageFactory.text(
+                    f"Sie gelten nicht als Kontaktperson, gehören jedoch zu einer erhöhten Risikogruppe. Bitte **überwachen Sie Ihre Symptome** und **begeben Sie sich in häusliche Quarantäne**. Empfehlungen zu Ihrem weiteren Handeln finden Sie auf rki.de")
+            )
+            # No personal data required. Return empty personal data.
+            return await step_context.next(PersonalData())
+
+        if user_profile.critical_symptoms_bool is True:
             # Thank them for participating.
             await step_context.context.send_activity(
                 MessageFactory.text(
