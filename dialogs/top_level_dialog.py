@@ -1,7 +1,7 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
 import base64
-from datetime import date
+from datetime import date, time
 
 from botbuilder.core import MessageFactory
 from botbuilder.dialogs import (
@@ -286,16 +286,16 @@ class TopLevelDialog(ComponentDialog):
         user_profile.personal_data = None       #SCHAUEN OB NÖTIG
         user_profile.personal_data = step_context.result
 
+        time.sleep(1)
         # Thank them for participating.
         await step_context.context.send_activity(
             MessageFactory.text(f"Danke für Ihre Mithilfe und das Beantworten der Fragen, {user_profile.name}. Bitte bleiben Sie wenn möglich zu Hause und verlassen Sie Ihr zu Hause nur wenn absolut notwendig.")
         )
-
+        time.sleep(1)
         await step_context.context.send_activity(
             MessageFactory.text(f"Bei weiterer Kommunikation mit Behörden können Sie folgende Zeile anhängen und sparen "
                                 f"sich lästige erneute Nachfragen.")
         )
-
         ausgabe = "**Wichtige Daten für Ihr Gesundheitsamt**\n\n"
         #ausgabe = "Ihre Angaben:"
 
@@ -345,9 +345,8 @@ class TopLevelDialog(ComponentDialog):
             ausgabe += user_profile.critical_job
         else:
             ausgabe += "nein"
-        
-        
 
+        time.sleep(1)
         await step_context.context.send_activity(
 
             MessageFactory.text(ausgabe) 

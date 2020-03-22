@@ -29,9 +29,11 @@ Ein besonderer Dank gebührt folgenden Gesundheitsämtern. Sie haben sich trotz 
 
 Abhängig von den angegebenen Risikofaktoren werden peronalisierte Informationen und Verhaltensratschläge angezeigt. Das ermittelte Risikoprofil und die Stammdaten werden bei Bedarf als Data Takeout angeboten statt zentral gespeichert, um diese maschinen- und menschenlesbar, gesammelt und datenschutzfreundlich an das lokale Gesundheitsamt übermittelbar zu machen. Dadurch wird **Corobot** die Gespräche in Hotlines verkürzen, einen höheren Durchsatz erzeugen und damit die Wartezeiten für Bügerinnen und Bürger verkürzen.
 
+*Technisches: Der Bot bietet ein einfaches REST-Interface zur Anbindung an weitere Clients. Entwickelt ist er in Python mit  Microsoft Bot Framework v4. Er lässt sich sehr einfach extrem skalierbar auf Microsoft Azure deployen.* 
+
 ## How To
 
-### Ausführen des Programs
+### Lokal ausführen
 - Repository klonen
 ```bash
 git clone https://github.com/Maxwingber/corobot.git
@@ -40,19 +42,13 @@ git clone https://github.com/Maxwingber/corobot.git
 - `pip install -r requirements.txt` ausführen um die Anforderungen zu installieren
 - `python app.py` ausführen um den Bot lokal zu starten
 
-### Bot Testen mit Framework Emulator
-Mit dem [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) kann der Bot lokal getestet werden. 
+Mit dem [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) kann der Bot dann lokal getestet werden. Dafür sollte unter File -> Open Bot die folgende URL eingegeben werden: http://localhost:3978/api/messages
 
-#### Mit dem Bot verbinden
-- Bot Framework Emulator ausführen
-- File -> Open Bot
-- Die folgende URL im Emulator öffnen: http://localhost:3978/api/messages
+### In der Cloud deployen
 
-### Den Bot auf Azure deployen
+Zum Beispiel analog zum Tutorial [Deploy your bot to Azure](https://aka.ms/azuredeployment). 
 
-[Deploy your bot to Azure](https://aka.ms/azuredeployment)
-
-## Weiterführende Informationen zum Microsoft Bot Framework und Azure
+### Weiterführende Informationen zu den verwendeten Technologien
 
 - [Bot Framework Documentation](https://docs.botframework.com)
 - [Bot Basics](https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
