@@ -325,6 +325,7 @@ class TopLevelDialog(ComponentDialog):
             take_out += "\n\nBesuchte Risikogebiete: "
             for i in range(0, len(user_profile.risk_countries)):
                 take_out += user_profile.risk_countries[i] + " bis " + user_profile.risk_country_returndates[i] + ", "
+            take_out = take_out[0:len(take_out)-2]
         
         ausgabe += take_out
 
