@@ -1,6 +1,7 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
 import base64
+from datetime import date
 
 from botbuilder.core import MessageFactory
 from botbuilder.dialogs import (
@@ -147,7 +148,20 @@ class TopLevelDialog(ComponentDialog):
 
     async def job_claim_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
         user_profile: UserProfile = step_context.values[self.USER_INFO]
-        user_profile.contact_names = step_context.result
+        # Storing contacts and setting bools
+        contact_dates = step_context.result
+        user_profile.contact_risk_1_date = contact_dates[0]
+        user_profile.contact_risk_2_date = contact_dates[1]
+        print("[DEBUG] Current date " + date.today().strftime("%Y%m%d"))
+        if user_profile.contact_risk_1_date is not None:
+            print("[DEBUG] Time diff risk contact 1: " + str(int(date.today().strftime("%Y%m%d")) - int(user_profile.contact_risk_1_date.replace("-", ""))))
+            if int(date.today().strftime("%Y%m%d")) - int(user_profile.contact_risk_1_date.replace("-", "")) <= 14:
+                user_profile.contact_risk_1_bool = True
+        if user_profile.contact_risk_2_date is not None:
+            print("[DEBUG] Time diff risk contact 2: " + str(int(date.today().strftime("%Y%m%d")) - int(user_profile.contact_risk_2_date.replace("-", ""))))
+            if int(date.today().strftime("%Y%m%d")) - int(user_profile.contact_risk_2_date.replace("-", "")) <= 14:
+                user_profile.contact_risk_2_bool = True
+
         return await step_context.begin_dialog(ChoicePrompt.__name__, PromptOptions(
             prompt=MessageFactory.text("Arbeiten Sie in einem systemkritischen Bereich?"),
             choices=[Choice("Ja"), Choice("Nein")]

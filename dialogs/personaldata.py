@@ -80,14 +80,14 @@ class PersonalDataDialog(ComponentDialog):
             # Ask the user to choose their gender.
             return await step_context.begin_dialog(ChoicePrompt.__name__, PromptOptions(
                 prompt=MessageFactory.text("Was ist Ihr Geschlecht?"),
-                choices=["Männlich", "Weiblich", "Divers"],
+                choices=[Choice("Männlich", synonyms=["m"]), Choice("Weiblich", synonyms=["w"]), Choice("Divers", synonyms=["d"])],
                 style=ListStyle.suggested_action
             ))
 
     async def street_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
             # Set the user's gender to what they entered in response to the gender prompt.
             personal_data = step_context.values[self.PERSONAL_DATA]
-            personal_data.gender = step_context.result
+            personal_data.gender = step_context.result.value
 
             # Ask the user to enter their street and number.
             prompt_options = PromptOptions(

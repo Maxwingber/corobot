@@ -143,7 +143,7 @@ class ContactsSelectionDialog(ComponentDialog):
 
         dates = [str(step_context.values[self.FIRST_DATE]), str(step_context.values[self.SECOND_DATE])]
 
-        print("The dates are " + dates[0] + " and " + dates[1])
+        print("[DEBUG] The dates are " + dates[0] + " and " + dates[1])
 
         return await step_context.end_dialog(dates)
 
