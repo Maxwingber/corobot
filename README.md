@@ -15,6 +15,7 @@ Die Ergebnisse:
 
 Ein besonderer Dank gebührt folgenden Gesundheitsämtern. Sie haben sich trotz der besonderen Situation die Zeit genommen und sich die Mühe gemacht, uns bei der Konkretisierung der Problempunkte zu helfen.
 
+* Gesundheitsamt Bamberg
 * Gesundheitsamt Berlin-Spandau
 * Gesundheitsamt Emden
 * Gesundheitsamt Helmstedt
@@ -22,7 +23,6 @@ Ein besonderer Dank gebührt folgenden Gesundheitsämtern. Sie haben sich trotz 
 * Gesundheitsamt Main-Taunus-Kreis
 * Gesundheitsamt Neustadt Bad-Dürkheim
 * Gesundheitsamt Soest
-* Gesundheitsamt Bamberg
 
 ## Lösung
 
