@@ -61,7 +61,7 @@ class ContactsSelectionDialog(ComponentDialog):
             ChoicePrompt.__name__,
             PromptOptions(
                 choices=[Choice("Ja"), Choice("Nein")],
-                prompt=MessageFactory.text("Hatten Sie engen Kontakt zu einem bestätigten Fall?")
+                prompt=MessageFactory.text("Hatten Sie engen Kontakt zu einem **bestätigten Covid-19-Fall**?")
             ),
         )
 
@@ -109,7 +109,7 @@ class ContactsSelectionDialog(ComponentDialog):
             ChoicePrompt.__name__,
             PromptOptions(
                 choices=[Choice("Ja"), Choice("Nein")],
-                prompt=MessageFactory.text("Hatten Sie engen Kontakt zu einem Verdachtsfall?")
+                prompt=MessageFactory.text("Hatten Sie engen Kontakt zu einem **Covid-19-Verdachtsfall**?")
             ),
         )
 
