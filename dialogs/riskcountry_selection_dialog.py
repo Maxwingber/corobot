@@ -67,7 +67,7 @@ class RiskCountrySelectionDialog(ComponentDialog):
 
         if len(selected) == 0:
             message = (
-                f"Im Folgenden finden Sie eine Liste von Regionen. Waren Sie in letzter Zeit in einer dieser Regionen? Falls nicht, sagen Sie {self.DONE_OPTION}."
+                f"Im Folgenden finden Sie eine Liste von Regionen. Waren Sie in letzter Zeit in einer dieser Regionen? Falls nicht, sagen Sie {self.DONE_OPTION}. Sie können mir auch nur die Zahl der Region nennen."
             )
         else:
             message = (
