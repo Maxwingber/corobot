@@ -286,12 +286,12 @@ class TopLevelDialog(ComponentDialog):
         user_profile.personal_data = None       #SCHAUEN OB NÖTIG
         user_profile.personal_data = step_context.result
 
-        time.sleep(1)
+        #time.sleep(1)
         # Thank them for participating.
         await step_context.context.send_activity(
             MessageFactory.text(f"Danke für Ihre Mithilfe und das Beantworten der Fragen, {user_profile.name}. Bitte bleiben Sie wenn möglich zu Hause und verlassen Sie Ihr zu Hause nur wenn absolut notwendig.")
         )
-        time.sleep(1)
+        #time.sleep(1)
         await step_context.context.send_activity(
             MessageFactory.text(f"Bei weiterer Kommunikation mit Behörden können Sie folgende Zeile anhängen und sparen "
                                 f"sich lästige erneute Nachfragen.")
@@ -346,7 +346,7 @@ class TopLevelDialog(ComponentDialog):
         else:
             ausgabe += "nein"
 
-        time.sleep(1)
+        #time.sleep(1)
         await step_context.context.send_activity(
 
             MessageFactory.text(ausgabe) 
