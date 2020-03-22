@@ -298,7 +298,9 @@ class TopLevelDialog(ComponentDialog):
             "\n\nAdresse: " + user_profile.personal_data.street + ", " + user_profile.personal_data.zipcode + " " + user_profile.personal_data.city +\
             "\n\nTelefonnr.: " + user_profile.personal_data.telephone +\
             "\n\nEmail: " + user_profile.personal_data.email +\
-            "\n\n\n\nSymptome: " + str(user_profile.symptoms))
+            "\n\n\n\nSymptome: " + str(user_profile.symptoms) if len(user_profile.symptoms) is not 0 else "keine" +\
+            (("Fiebertemparatur: " + str(user_profile.symptoms)) if 'Fieber' in user_profile.symptoms else "nixxx") +\
+            "\n\n")
         )
 
         print("[DEBUG] Final user object created:\n" + str(user_profile.__dict__))
