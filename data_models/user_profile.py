@@ -3,22 +3,12 @@
 
 from typing import List
 
-
-class UserProfile:
-    def __init__(
-        self, family_name: str = None, first_name: str = None, age: int = 0, gender: str = None, street: str = None,\
+class PersonalData:
+    def __init__(self, family_name: str = None, first_name: str = None, age: int = 0, gender: str = None, street: str = None,\
         plz: int = 0, city: str = None, telephone: str = None, email: str = None,\
-        birthday: str = None, symptoms: List[str] = None, symptoms_date: str = None,\
-        fever_temp: float = 0.0, critical_symptoms_bool: bool = False,\
-        risk_countries_bool: bool = False, risk_countries: List[str] = None,\
-        risk_country_returndate: str = None, contact_risk_1_bool: bool = False,\
-        contact_risk_1_date: str = None, contact_risk_2_bool: bool = False,\
-        contact_risk_2_date: str = None, contact_names: List[str] = None,\
-        critical_job: str = None, risk_category: int = 0
-    ):
+        birthday: str = None,):
         self.family_name: str = family_name
         self.first_name: str = first_name
-        self.age: int = age
         self.gender: str = gender
         self.street: str = street
         self.plz: int = plz
@@ -26,6 +16,19 @@ class UserProfile:
         self.telephone: str = telephone
         self.email: str = email
         self.birthday: str = birthday
+
+class UserProfile:
+    def __init__(
+        self, name: str = None, symptoms: List[str] = None, symptoms_date: str = None,\
+        fever_temp: float = 0.0, critical_symptoms_bool: bool = False,\
+        risk_countries_bool: bool = False, risk_countries: List[str] = None,\
+        risk_country_returndate: str = None, contact_risk_1_bool: bool = False,\
+        contact_risk_1_date: str = None, contact_risk_2_bool: bool = False,\
+        contact_risk_2_date: str = None, contact_names: List[str] = None,\
+        critical_job: str = None, risk_category: int = 0, personal_data: PersonalData = None
+    ):
+        self.name: str = name
+        self.age: int = age
         
         self.symptoms: List[str] = symptoms
         self.symptoms_date: str = symptoms_date
@@ -42,4 +45,6 @@ class UserProfile:
         self.contact_names: List[str] = contact_names       # falls mans braucht
         
         self.critical_job: str = critical_job
-        self.risk_category: int = risk_category           # bei 1 und 2 Aufforderung zur Personendatenabfrage
+        self.risk_category: int = risk_category   # bei 1 und 2 Aufforderung zur Personendatenabfrage
+
+        self.personal_data: PersonalData = personal_data
