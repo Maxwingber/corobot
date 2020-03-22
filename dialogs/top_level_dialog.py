@@ -272,6 +272,7 @@ class TopLevelDialog(ComponentDialog):
     ) -> DialogTurnResult:
         # Set the user's personal data to what they entered in the personal data dialog.
         user_profile: UserProfile = step_context.values[self.USER_INFO]
+        user_profile.personal_data = None       #SCHAUEN OB NÖTIG
         user_profile.personal_data = step_context.result
 
         # Thank them for participating.
@@ -284,26 +285,42 @@ class TopLevelDialog(ComponentDialog):
                                 f"sich lästige erneute Nachfragen.")
         )
 
+        try:
 
-        await step_context.context.send_activity(
-            #symptoms_str: str = None
-            #if str(user_profile.symptoms) == "[]":
-            #    symptoms_str = "keine"
-            #else:
-            #    symptoms_str = str(user_profile.symptoms) + " seit " + user_profile.symptoms_date
+            await step_context.context.send_activity(
+                #symptoms_str: str = None
+                #if str(user_profile.symptoms) == "[]":
+                #    symptoms_str = "keine"
+                #else:
+                #    symptoms_str = str(user_profile.symptoms) + " seit " + user_profile.symptoms_date
 
-            # MessageFactory.text(base64.b64encode(bytearray(str(user_profile.__dict__), 'utf-8'))) TODO
-            #MessageFactory.text(str(user_profile.__dict__) + "\n" + str(user_profile.personal_data.__dict__))
-            MessageFactory.text("Ihre Angaben:\n\nName, Vorname: " + user_profile.personal_data.family_name + ", " + user_profile.personal_data.first_name +\
-            "\n\nGeburtsdatum: " + user_profile.personal_data.birthday +\
-            "\n\nGeschlecht: " + user_profile.personal_data.gender +\
-            "\n\nAdresse: " + user_profile.personal_data.street + ", " + user_profile.personal_data.zipcode + " " + user_profile.personal_data.city +\
-            "\n\nTelefonnr.: " + user_profile.personal_data.telephone +\
-            "\n\nEmail: " + user_profile.personal_data.email +\
-            "\n\n\n\nSymptome: " + str(user_profile.symptoms) if len(user_profile.symptoms) is not 0 else "keine" +\
-            (("Fiebertemparatur: " + str(user_profile.symptoms)) if 'Fieber' in user_profile.symptoms else "nixxx") +\
-            "\n\n")
-        )
+                # MessageFactory.text(base64.b64encode(bytearray(str(user_profile.__dict__), 'utf-8'))) TODO
+                #MessageFactory.text(str(user_profile.__dict__) + "\n" + str(user_profile.personal_data.__dict__))
+                
+                MessageFactory.text("Ihre Angaben:\n\nName, Vorname: " + user_profile.personal_data.family_name + ", " + user_profile.personal_data.first_name +\
+                "\n\nGeburtsdatum: " + user_profile.personal_data.birthday +\
+                "\n\nGeschlecht: " + user_profile.personal_data.gender +\
+                "\n\nAdresse: " + user_profile.personal_data.street + ", " + user_profile.personal_data.zipcode + " " + user_profile.personal_data.city +\
+                "\n\nTelefonnr.: " + user_profile.personal_data.telephone +\
+                "\n\nEmail: " + user_profile.personal_data.email +\
+                "\n\n\n\nSymptome: " + str(user_profile.symptoms) if len(user_profile.symptoms) is not 0 else "keine" +\
+                ("Fiebertemparatur: " + user_profile.fever_temp) if 'Fieber' in user_profile.symptoms else "" +\
+                "\n\nBesuchte Risikogebiete: " + str(user_profile.risk_countries) +\
+                "\n\nKontakt mit infizierter Person: " + ("ja, am " + user_profile.contact_risk_1_date) if user_profile.contact_risk_1_bool else "nein" +\
+                "\n\n")
+                
+                
+            )
+
+        except:
+
+            await step_context.context.send_activity(
+                MessageFactory.text("Ihre Angaben:\n\nSymptome: " + str(user_profile.symptoms) if len(user_profile.symptoms) is not 0 else "keine" +\
+                ("Fiebertemparatur: " + user_profile.fever_temp) if 'Fieber' in user_profile.symptoms else "" +\
+                "\n\nBesuchte Risikogebiete: " + str(user_profile.risk_countries) +\
+                "\n\nKontakt mit infizierter Person: " + ("ja, am " + user_profile.contact_risk_1_date) if user_profile.contact_risk_1_bool else "nein" +\
+                "\n\n")
+            )
 
         print("[DEBUG] Final user object created:\n" + str(user_profile.__dict__))
 
