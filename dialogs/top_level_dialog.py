@@ -92,7 +92,7 @@ class TopLevelDialog(ComponentDialog):
 
         prompt_options = PromptOptions(
             choices = [Choice("Ja"), Choice("Nein")],
-            prompt = MessageFactory.text("Waren Sie seit 01.01.2020 im Ausland?")
+            prompt = MessageFactory.text("Waren Sie dieses Jahr bereits im Ausland?")
         )
 
         return await step_context.begin_dialog(ChoicePrompt.__name__, prompt_options)
