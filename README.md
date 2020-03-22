@@ -1,32 +1,58 @@
-# Complex dialog sample
+*Dieses Projekt ist WORK IN PROGRESS und nur zu Testzwecken zu verwenden.*
+![WirVsVirus Hackathon Logo](assets/Logo_Projekt_01.png)
+# Corobot 
+## Überblick
+**Corobot** automatisiert die Datenerhebung und -auswertung bei möglichen COVID-19-Verdachtsfällen und bereitet die Daten zur Weiterverwendung in Gesundheitsämtern auf. 
 
-This sample creates a complex conversation with dialogs.
+## Problem
+Während des [WirVsVirus](https://wirvsvirushackathon.org/) Hackathon haben wir Gesundheitsämter gefragt, welche Probleme bei der Identifizierung von Fällen von COVID-19 bestehen. Wir hatten eine Antwortrate von unglaublichen 1,75%! Zum Glück haben wir über 400 Gesundheitsämter kontaktiert. 😉
 
-## Running the sample
-- Clone the repository
+Die Ergebnisse: 
+* Viele Riskikofaktoren werden wimmer wieder abgefragt: Auslandsaufenthalte, Kontakte zu Infizierten der Risikoklassen 1 und 2, Symptome
+* Es gibt unterschiedlichste Registrierungsverfahren bei Kommunen und Ländern und bisher fehlt oftmals ein nutzbarer Best Practice
+* Es herrschen signifikant unterschiedliche Technologiestandards: Einige Komunen fragen Daten bereits automatisiert über Websiten ab während andere telefonisch (und auf Papier!) Stammdaten aufnehmen
+* Viel zu viel Zeit wird für die Aufnahme und Korrektur der Personendaten verbraucht
+
+Ein besonderer Dank gebührt folgenden Gesundheitsämtern. Sie haben sich trotz der besonderen Situation die Zeit genommen und sich die Mühe gemacht, uns bei der Konkretisierung der Problempunkte zu helfen.
+
+* Gesundheitsamt Berlin-Spandau
+* Gesundheitsamt Emden
+* Gesundheitsamt Helmstedt
+* Gesundheitsamt Hof
+* Gesundheitsamt Main-Taunus-Kreis
+* Gesundheitsamt Neustadt Bad-Dürkheim
+* Gesundheitsamt Soest
+
+## Lösung
+
+**Corobot** ermöglicht die automatisierte Datenaufnahme und -auswertung bei Menschen, die aufgrund der COVID-19-Pandemie in Deutschland die lokalen Gesundheitsämter kontaktieren. **Corobot** ist mit jedem beliebigem Frontend verknüpfbar und kann dadurch auf einer [Website](https://corobot2020.z16.web.core.windows.net/), in einem [Telegram-Bot](t.me/Corobotbot) oder am Telefon als Sprachcomputer kontaktiert werden. Die Möglichkeit zur Integration als Sprachcomputer ist besonders für Menschen ohne Internetzugang sowie zur Integration in Bürgerhotlines extrem wichtig. 
+
+Abhängig von den angegebenen Risikofaktoren werden peronalisierte Informationen und Verhaltensratschläge angezeigt. Das ermittelte Risikoprofil und die Stammdaten werden bei Bedarf als Data Takeout angeboten statt zentral gespeichert, um diese maschinen- und menschenlesbar, gesammelt und datenschutzfreundlich an das lokale Gesundheitsamt übermittelbar zu machen. Dadurch wird **Corobot** die Gespräche in Hotlines verkürzen, einen höheren Durchsatz erzeugen und damit die Wartezeiten für Bügerinnen und Bürger verkürzen.
+
+## How To
+
+### Ausführen des Programs
+- Repository klonen
 ```bash
-git clone https://github.com/Microsoft/botbuilder-samples.git
+git clone https://github.com/Maxwingber/corobot.git
 ```
-- Bring up a terminal, navigate to `botbuilder-samples\samples\python\43.complex-dialog` folder
-- Activate your desired virtual environment
-- In the terminal, type `pip install -r requirements.txt`
-- Run your bot with `python app.py`
+- In einem Terminal in den Ordner navigieren
+- `pip install -r requirements.txt` ausführen um die Anforderungen zu installieren
+- `python app.py` ausführen um den Bot lokal zu starten
 
-## Testing the bot using Bot Framework Emulator
-[Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
+### Bot Testen mit Framework Emulator
+Mit dem [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) kann der Bot lokal getestet werden. 
 
-- Install the Bot Framework emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
-
-### Connect to bot using Bot Framework Emulator
-- Launch Bot Framework Emulator
+#### Mit dem Bot verbinden
+- Bot Framework Emulator ausführen
 - File -> Open Bot
-- Paste this URL in the emulator window - http://localhost:3978/api/messages
+- Die folgende URL im Emulator öffnen: http://localhost:3978/api/messages
 
-## Deploy the bot to Azure
+### Den Bot auf Azure deployen
 
-To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
+[Deploy your bot to Azure](https://aka.ms/azuredeployment)
 
-# Further reading
+## Weiterführende Informationen zum Microsoft Bot Framework und Azure
 
 - [Bot Framework Documentation](https://docs.botframework.com)
 - [Bot Basics](https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
