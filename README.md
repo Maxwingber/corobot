@@ -48,7 +48,7 @@ Mit dem [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframe
 - File -> Open Bot
 - Die folgende URL im Emulator öffnen: http://localhost:3978/api/messages
 
-### Den Bot auf Azure deployen
+### Den Bot für Skalierbarkeit auf Azure deployen
 
 [Deploy your bot to Azure](https://aka.ms/azuredeployment)
 
