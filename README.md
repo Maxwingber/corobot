@@ -17,6 +17,7 @@ Vielen Dank an die Folgenden Gesundheitsämter. Sie haben sich trotz der besonde
 * Gesundheitsamt Emden
 * Gesundheitsamt Hof
 * Gesundheitsamt Soest
+* Gesundheitsamt Neustadt Bad-Dürkheim
 
 ## Lösung
 Automatisierte Abfrage und Datenaufnahme von Menschen die aufgrund des COVID-19 die lokalen Gesunheitsämter kontaktieren. Die Abfrage läuft zunächst Online, allerdings ist alles soweit vorbereitet um auch eine telefonische Abfrage zu implementieren.
