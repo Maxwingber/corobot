@@ -24,7 +24,7 @@ Vielen Dank an die Folgenden Gesundheitsämter. Sie haben sich trotz der besonde
 
 ## Lösung
 
-Automatisierte Abfrage und Datenaufnahme von Menschen, die aufgrund von COVID-19 die lokalen Gesunheitsämter kontaktieren. Die Abfrage läuft zunächst Online, allerdings ist der Bot mit beliebigem Frontend bedienbar. Dadurch ist der Plan, als nächstes eine telefonische Abfrage für Menschen ohne Internetzugang und eine nahtlosere Integration in die Bürgerhotlines zu implementieren.
+Automatisierte Abfrage und Datenaufnahme von Menschen, die aufgrund von COVID-19 die lokalen Gesundheitsämter kontaktieren. Die Abfrage läuft zunächst Online, allerdings ist der Bot mit beliebigem Frontend bedienbar. Dadurch ist der Plan, als nächstes eine telefonische Abfrage für Menschen ohne Internetzugang und eine nahtlosere Integration in die Bürgerhotlines zu implementieren.
 
 ## How To
 
