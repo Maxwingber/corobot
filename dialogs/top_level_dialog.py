@@ -1,5 +1,6 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
+import base64
 
 from botbuilder.core import MessageFactory
 from botbuilder.dialogs import (
@@ -180,6 +181,7 @@ class TopLevelDialog(ComponentDialog):
     ) -> DialogTurnResult:
         # Set the user's company selection to what they entered in the review-selection dialog.
         user_profile: UserProfile = step_context.values[self.USER_INFO]
+        user_profile.personal_data = step_context.result
 
         # Thank them for participating.
         await step_context.context.send_activity(
@@ -191,8 +193,10 @@ class TopLevelDialog(ComponentDialog):
                                 f"sich lästige erneute Nachfragen.")
         )
 
+
         await step_context.context.send_activity(
-            MessageFactory.text(user_profile.__dict__)
+            # MessageFactory.text(base64.b64encode(bytearray(str(user_profile.__dict__), 'utf-8'))) TODO
+            MessageFactory.text(str(user_profile.__dict__) + "\n" + str(user_profile.personal_data.__dict__))
         )
 
         print("[DEBUG] Final user object created:\n" + str(user_profile.__dict__))
