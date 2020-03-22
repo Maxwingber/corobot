@@ -1,6 +1,6 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
-
+from datetime import time
 from typing import List
 
 from botbuilder.dialogs import (
@@ -51,11 +51,12 @@ class ContactsSelectionDialog(ComponentDialog):
             MessageFactory.text(
                 "Finden wir heraus, ob Sie engen Kontakt zu einem bestätigten Covid-19-Fall hatten.")
         )
+        #time.sleep(1)
         await step_context.context.send_activity(
             MessageFactory.text(
                 f"Als enger Kontakt gilt Kontakt von Angesicht zu Angesicht länger als 15 Minuten, oder direkter, physischer Kontakt (Berührung, Händeschütteln, Küssen), oder Kontakt mit oder Austausch von Körperflüssigkeiten, oder Teilen einer Wohnung.")
         )
-
+        #time.sleep(2)
         return await step_context.prompt(
             ChoicePrompt.__name__,
             PromptOptions(
@@ -98,11 +99,12 @@ class ContactsSelectionDialog(ComponentDialog):
             MessageFactory.text(
                 "Finden wir heraus, ob Sie engen Kontakt zu einem Covid-19-Verdachtsfall hatten.")
         )
+        #time.sleep(1)
         await step_context.context.send_activity(
             MessageFactory.text(
                 f"Als enger Kontakt gilt Kontakt von Angesicht zu Angesicht länger als 15 Minuten, oder direkter, physischer Kontakt (Berührung, Händeschütteln, Küssen), oder Kontakt mit oder Austausch von Körperflüssigkeiten, oder Teilen einer Wohnung.")
         )
-
+        #time.sleep(2)
         return await step_context.prompt(
             ChoicePrompt.__name__,
             PromptOptions(

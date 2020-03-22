@@ -1,7 +1,7 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
 import base64
-from datetime import date
+from datetime import date, time
 
 from botbuilder.core import MessageFactory
 from botbuilder.dialogs import (
@@ -92,7 +92,7 @@ class TopLevelDialog(ComponentDialog):
 
         prompt_options = PromptOptions(
             choices = [Choice("Ja"), Choice("Nein")],
-            prompt = MessageFactory.text("Waren Sie seit 01.01.2020 im Ausland?")
+            prompt = MessageFactory.text("Waren Sie dieses Jahr bereits im Ausland?")
         )
 
         return await step_context.begin_dialog(ChoicePrompt.__name__, prompt_options)
@@ -105,7 +105,7 @@ class TopLevelDialog(ComponentDialog):
 
         if not riskcountry_true:
             print("[DEBUG] Skipping risk country selection")
-            return await step_context.next([])
+            return await step_context.next([[],[]])
         else:
             print("[DEBUG] Entering risk country selection")
             return await step_context.begin_dialog(RiskCountrySelectionDialog.__name__)
@@ -117,10 +117,21 @@ class TopLevelDialog(ComponentDialog):
     ) -> DialogTurnResult:
         # Set the user's age to what they entered in response to the age prompt.
         print("[DEBUG] Arrived in symptom selection")
+        print("[DEBUG] Risk countries dialog result is " + str(step_context.result))
         user_profile: UserProfile = step_context.values[self.USER_INFO]
-        user_profile.risk_countries = step_context.result
+        user_profile.risk_countries = step_context.result[0]
+        user_profile.risk_country_returndates = step_context.result[1]
+
         if user_profile.risk_countries is not None and len(user_profile.risk_countries) > 0:
-            user_profile.risk_countries_bool = True
+            for single_date in user_profile.risk_country_returndates:
+                print("[DEBUG] Looking at return date " + single_date)
+                print("[DEBUG] Time diff return date: " + str(
+                    int(date.today().strftime("%Y%m%d")) - int(single_date.replace("-", ""))))
+                if int(date.today().strftime("%Y%m%d")) - int(single_date.replace("-", "")) <= 14:
+                    print("[DEBUG] Set risk country bool to True")
+                    user_profile.risk_countries_bool = True
+
+        print("[DEBUG] Risk countries and returndates are\n" + str(user_profile.risk_countries) + "\n" + str(user_profile.risk_country_returndates))
 
         # Otherwise, start the review selection dialog.
         return await step_context.begin_dialog(SymptomsSelectionDialog.__name__)
@@ -128,8 +139,10 @@ class TopLevelDialog(ComponentDialog):
     async def temparature_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
         # Set the user's name to what they entered in response to the name prompt.
         user_profile: UserProfile = step_context.values[self.USER_INFO]
-        user_profile.symptoms = step_context.result
+        user_profile.symptoms = step_context.result[0]
+        user_profile.symptoms_dates = step_context.result[1]
         print("[DEBUG] Symptoms are " + str(user_profile.symptoms))
+        print("[DEBUG] Corresponding dates are " + str(user_profile.symptoms))
         if user_profile.symptoms is not None and len(user_profile.symptoms) > 0 and (any(user_profile.symptoms) is x for x in ['Husten', 'Lungenentzündung', 'Fieber']):
             print("[DEBUG] Setting critical symtoms bool to true with symptoms " + str(user_profile.symptoms))
             user_profile.critical_symptoms_bool = True
@@ -270,23 +283,81 @@ class TopLevelDialog(ComponentDialog):
     ) -> DialogTurnResult:
         # Set the user's personal data to what they entered in the personal data dialog.
         user_profile: UserProfile = step_context.values[self.USER_INFO]
+        user_profile.personal_data = None       #SCHAUEN OB NÖTIG
         user_profile.personal_data = step_context.result
 
+        #time.sleep(1)
         # Thank them for participating.
         await step_context.context.send_activity(
             MessageFactory.text(f"Danke für Ihre Mithilfe und das Beantworten der Fragen, {user_profile.name}. Bitte halten Sie sich an die aktuell geltenden Regelungen und Empfehlungen der Behörden und des Robert-Koch-Instituts (rki.de).")
         )
-
+        #time.sleep(1)
         await step_context.context.send_activity(
             MessageFactory.text(f"Bei weiterer Kommunikation mit Behörden können Sie folgende Zeile anhängen und sparen "
                                 f"sich lästige erneute Nachfragen.")
         )
+        ausgabe = "**Wichtige Daten für Ihr Gesundheitsamt**\n\n"
+        #ausgabe = "Ihre Angaben:"
 
+        try:
 
+            ausgabe += "\n\nName, Vorname: " + user_profile.personal_data.family_name + ", " + user_profile.personal_data.first_name
+            ausgabe += "\n\nGeburtsdatum: " + user_profile.personal_data.birthday
+            ausgabe += "\n\nGeschlecht: " + user_profile.personal_data.gender
+            ausgabe += "\n\nAdresse: " + user_profile.personal_data.street + ", " + user_profile.personal_data.zipcode + " " + user_profile.personal_data.city
+            ausgabe += "\n\nTelefonnr.: " + user_profile.personal_data.telephone
+            ausgabe += "\n\nEmail: " + user_profile.personal_data.email
+        
+        except:
+
+            print("[DEBUG] no personal_data")
+
+        take_out = ""
+        take_out += "\n\nSymptome: "
+        if (len(user_profile.symptoms) > 0):
+            for i in range(0,len(user_profile.symptoms)):
+                take_out += user_profile.symptoms[i] + " seit " + user_profile.symptoms_dates[i] + ", "#
+            take_out = take_out[0:len(take_out)-2]
+        else:
+            take_out += "keine"
+
+        if (user_profile.fever_temp != 0.0):
+            take_out += "\n\nFiebertemperatur: " + str(user_profile.fever_temp).replace(".", ",") + "°C"
+        
+        take_out += "\n\nBesuchte Risikogebiete: "
+        if (user_profile.risk_countries_bool):
+            for i in range(0, len(user_profile.risk_countries)):
+                take_out += user_profile.risk_countries[i] + " bis " + user_profile.risk_country_returndates[i] + ", "
+            take_out = take_out[0:len(take_out)-2]
+        else:
+            take_out += "keine"
+        
+        ausgabe += take_out
+
+        ausgabe += "\n\nKontakt mit infizierter Person: " 
+        if user_profile.contact_risk_1_date is not None:
+            ausgabe += "ja, am " + str(user_profile.contact_risk_1_date)
+        else:
+            ausgabe += "nein"
+
+        ausgabe += "\n\nKontakt mit Verdachtsperson: " 
+        if user_profile.contact_risk_2_date is not None:
+            ausgabe += "ja, am " + str(user_profile.contact_risk_2_date)
+        else:
+            ausgabe += "nein"
+
+        ausgabe += "\n\nFunktionsträger: "
+        if user_profile.critical_job is not None:
+            ausgabe += user_profile.critical_job
+        else:
+            ausgabe += "nein"
+
+        #time.sleep(1)
         await step_context.context.send_activity(
-            # MessageFactory.text(base64.b64encode(bytearray(str(user_profile.__dict__), 'utf-8'))) TODO
-            MessageFactory.text(str(user_profile.__dict__) + "\n" + str(user_profile.personal_data.__dict__))
+
+            MessageFactory.text(ausgabe) 
         )
+
 
         print("[DEBUG] Final user object created:\n" + str(user_profile.__dict__))
 
