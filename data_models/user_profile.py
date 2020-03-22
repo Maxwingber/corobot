@@ -5,13 +5,13 @@ from typing import List
 
 class PersonalData:
     def __init__(self, family_name: str = None, first_name: str = None, gender: str = None, street: str = None,\
-        plz: int = 0, city: str = None, telephone: str = None, email: str = None,\
+        zipcode: str = None, city: str = None, telephone: str = None, email: str = None,\
         birthday: str = None,):
         self.family_name: str = family_name
         self.first_name: str = first_name
         self.gender: str = gender
         self.street: str = street
-        self.plz: int = plz
+        self.zipcode: str = zipcode
         self.city: str = city
         self.telephone: str = telephone
         self.email: str = email
