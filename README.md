@@ -1,5 +1,7 @@
 # Corobot 
 
+![WirVsVirus Hackathon Logo](assets/Logo_Projekt_01.png)
+
 ## Problem
 Während des WirVsVirus Hackathon haben wir Gesundheitsämter gefragt, welche Probleme bei der Identifizierung von Fällen von COVID-19 bestehen. Wir hatten eine Antwortrate von unglaublichen 1%! Zum Glück haben wir über 400 Gesundheitsämter kontaktiert. ;-) 
 
