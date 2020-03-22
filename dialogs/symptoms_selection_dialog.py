@@ -103,7 +103,7 @@ class SymptomsSelectionDialog(ComponentDialog):
                 DateTimePrompt.__name__,
                 PromptOptions(
                     prompt=MessageFactory.text(
-                        "An welchem Tag hatten Sie dieses Symptom zuletzt? Bitte nennen Sie es im Format TT.MM.JJJJ (z.B. 03.03.2020)."),
+                        "Seit wann leiden Sie an diesem Symptom? Bitte nennen Sie das Datum im Format TT.MM.JJJJ (z.B. 03.03.2020)."),
                 ),
             )
 

@@ -92,7 +92,7 @@ class TopLevelDialog(ComponentDialog):
 
         prompt_options = PromptOptions(
             choices = [Choice("Ja"), Choice("Nein")],
-            prompt = MessageFactory.text("Waren Sie seit 01.01.2020 im Ausland?")
+            prompt = MessageFactory.text("Waren Sie dieses Jahr bereits im Ausland?")
         )
 
         return await step_context.begin_dialog(ChoicePrompt.__name__, prompt_options)
@@ -105,7 +105,7 @@ class TopLevelDialog(ComponentDialog):
 
         if not riskcountry_true:
             print("[DEBUG] Skipping risk country selection")
-            return await step_context.next([])
+            return await step_context.next([[],[]])
         else:
             print("[DEBUG] Entering risk country selection")
             return await step_context.begin_dialog(RiskCountrySelectionDialog.__name__)
@@ -117,10 +117,21 @@ class TopLevelDialog(ComponentDialog):
     ) -> DialogTurnResult:
         # Set the user's age to what they entered in response to the age prompt.
         print("[DEBUG] Arrived in symptom selection")
+        print("[DEBUG] Risk countries dialog result is " + str(step_context.result))
         user_profile: UserProfile = step_context.values[self.USER_INFO]
-        user_profile.risk_countries = step_context.result
+        user_profile.risk_countries = step_context.result[0]
+        user_profile.risk_country_returndates = step_context.result[1]
+
         if user_profile.risk_countries is not None and len(user_profile.risk_countries) > 0:
-            user_profile.risk_countries_bool = True
+            for single_date in user_profile.risk_country_returndates:
+                print("[DEBUG] Looking at return date " + single_date)
+                print("[DEBUG] Time diff return date: " + str(
+                    int(date.today().strftime("%Y%m%d")) - int(single_date.replace("-", ""))))
+                if int(date.today().strftime("%Y%m%d")) - int(single_date.replace("-", "")) <= 14:
+                    print("[DEBUG] Set risk country bool to True")
+                    user_profile.risk_countries_bool = True
+
+        print("[DEBUG] Risk countries and returndates are\n" + str(user_profile.risk_countries) + "\n" + str(user_profile.risk_country_returndates))
 
         # Otherwise, start the review selection dialog.
         return await step_context.begin_dialog(SymptomsSelectionDialog.__name__)
