@@ -1,6 +1,6 @@
 *Dieses Projekt ist WORK IN PROGRESS und nur zu Testzwecken zu verwenden.*
 # Corobot 
-
+**Corobot** automatisiert die Datenerhebung und -auswertung bei möglichen COVID-19-Verdachtsfällen und bereitet die Daten zur Weiterverwendung in Gesundheitsämtern auf. 
 ![WirVsVirus Hackathon Logo](assets/Logo_Projekt_01.png)
 
 ## Problem
