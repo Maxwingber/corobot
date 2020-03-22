@@ -296,20 +296,20 @@ class TopLevelDialog(ComponentDialog):
                                 f"sich lästige erneute Nachfragen.")
         )
 
-        ausgabe = ""
-        ausgabe = "Ihre Angaben:"
+        ausgabe = "**Wichtige Daten für Ihr Gesundheitsamt**\n\n"
+        #ausgabe = "Ihre Angaben:"
 
-        if (user_profile.personal_data is not None):
+        try:
 
             ausgabe += "\n\nName, Vorname: " + user_profile.personal_data.family_name + ", " + user_profile.personal_data.first_name
-            ausgabe += "\n\nGeburtsdatum: " + user_profile.personal_data.birthday
             ausgabe += "\n\nGeburtsdatum: " + user_profile.personal_data.birthday
             ausgabe += "\n\nGeschlecht: " + user_profile.personal_data.gender
             ausgabe += "\n\nAdresse: " + user_profile.personal_data.street + ", " + user_profile.personal_data.zipcode + " " + user_profile.personal_data.city
             ausgabe += "\n\nTelefonnr.: " + user_profile.personal_data.telephone
             ausgabe += "\n\nEmail: " + user_profile.personal_data.email
         
-        else:
+        except:
+            
             print("[DEBUG] no personal_data")
 
         take_out = ""
@@ -317,7 +317,8 @@ class TopLevelDialog(ComponentDialog):
         if (len(user_profile.symptoms) > 0):
             take_out += "\n\nSymptome: "
             for i in range(0,len(user_profile.symptoms)):
-                take_out += user_profile.symptoms[i] + " seit " + user_profile.symptoms_dates[i] + ", "
+                take_out += user_profile.symptoms[i] + " seit " + user_profile.symptoms_dates[i] + ", "#
+            take_out = take_out[0:len(take_out)-2]
         if (user_profile.fever_temp != 0.0):
             take_out += "\n\nFiebertemparatur: " + str(user_profile.fever_temp)
         if (user_profile.risk_countries_bool):
@@ -329,15 +330,15 @@ class TopLevelDialog(ComponentDialog):
 
         ausgabe += "\n\nKontakt mit infizierter Person: " 
         if user_profile.contact_risk_1_bool:
-            ausgabe += "ja, am " + user_profile.contact_risk_1_date
+            ausgabe += "ja, am " + str(user_profile.contact_risk_1_date)
         else:
-            ausgabe += "keine"
+            ausgabe += "nein"
 
         ausgabe += "\n\nKontakt mit Verdachtsperson: " 
         if user_profile.contact_risk_2_bool:
-            ausgabe += "ja, am " + user_profile.contact_risk_2_date
+            ausgabe += "ja, am " + str(user_profile.contact_risk_2_date)
         else:
-            ausgabe += "keine"
+            ausgabe += "nein"
 
         ausgabe += "\n\nFunktionsträger: "
         if user_profile.critical_job is not None:
