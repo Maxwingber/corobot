@@ -13,6 +13,7 @@ from botbuilder.dialogs import (
 from botbuilder.dialogs.prompts import PromptOptions, TextPrompt, NumberPrompt
 
 from data_models import UserProfile
+from data_models import PersonalData
 from dialogs.contact_to_infected import ContactsSelectionDialog
 from dialogs.symptoms_selection_dialog import SymptomsSelectionDialog
 from dialogs.riskcountry_selection_dialog import RiskCountrySelectionDialog
@@ -148,7 +149,7 @@ class TopLevelDialog(ComponentDialog):
         user_profile: UserProfile = step_context.values[self.USER_INFO]
         user_profile.fever_temp = float(step_context.result.replace(",", "."))
 
-        # Otherwise, start the contacts dialog.
+        # tart the contacts dialog.
         return await step_context.begin_dialog(ContactsSelectionDialog.__name__)
 
     async def job_claim_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
@@ -186,21 +187,51 @@ class TopLevelDialog(ComponentDialog):
         else:
             return await step_context.next(Choice("**Keine**"))
 
-    async def personal_data_step(
-            self, step_context: WaterfallStepContext
-    ) -> DialogTurnResult:
+
+
+    async def personal_data_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
         # Set the user's company selection to what they entered in the review-selection dialog.
         user_profile: UserProfile = step_context.values[self.USER_INFO]
         if step_context.result.value != "**Keine**":
             user_profile.critical_job = step_context.result.value
 
-        # Otherwise, start the personal data dialog.
-        return await step_context.begin_dialog(PersonalDataDialog.__name__)
+        # If the user was in contact with a confirmed case in the past 14 days, he needs to add his personal data and contact the GA
+        if user_profile.contact_risk_1_bool is True:
+            # Thank them for participating.
+            await step_context.context.send_activity(
+                MessageFactory.text(
+                    f"Da Sie als Kontaktperson der Kategorie eingestuft werden, melden Sie sich bitte sofort bei Ihrem zuständigen Gesundheitsamt. Außerdem bitten wir Sie noch einige persönliche Daten für die Übermittlung an das Gesundheitsamt bereitzustellen. Empfehlungen zu Ihrem weiteren Handeln finden Sie auf rki.de")
+            )
+            # Start the personal data dialog.
+            return await step_context.begin_dialog(PersonalDataDialog.__name__)
+
+        if user_profile.contact_risk_2_bool is True:
+            # Thank them for participating.
+            await step_context.context.send_activity(
+                MessageFactory.text(
+                    f"Bitte warten Sie ab, ob sich Ihre Kontaktperson als bestätigter Fall herausstellt. Sollte sich der Fall bestätigen, melden Sie sich bitte bei Ihrem zuständigen Gesundheitsamt. Für diesen Fall bitten wir Sie noch einige persönliche Daten für die Übermittlung an das Gesundheitsamt bereitzustellen. Empfehlungen zu Ihrem weiteren Handeln finden Sie auf rki.de")
+            )
+            # Start the personal data dialog.
+            return await step_context.begin_dialog(PersonalDataDialog.__name__)
+
+        if user_profile.critical_symptoms_bool == True:
+            # Thank them for participating.
+            await step_context.context.send_activity(
+                MessageFactory.text(
+                    f"Sie gelten nicht als Kontaktperson. Bitte überwachen Sie Ihre Symptome und geben Sie sich in häusliche Quarantäne. Empfehlungen zu Ihrem weiteren Handeln finden Sie auf rki.de")
+            )
+            # No personal data required. Return empty personal data.
+            return await step_context.next(PersonalData())
+
+            # No personal data required. Return empty personal data.
+        else:
+            return await step_context.next(PersonalData())
+
 
     async def acknowledgement_step(
         self, step_context: WaterfallStepContext
     ) -> DialogTurnResult:
-        # Set the user's company selection to what they entered in the review-selection dialog.
+        # Set the user's personal data to what they entered in the personal data dialog.
         user_profile: UserProfile = step_context.values[self.USER_INFO]
         user_profile.personal_data = step_context.result
 
