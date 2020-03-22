@@ -119,14 +119,19 @@ class TopLevelDialog(ComponentDialog):
         print("[DEBUG] Arrived in symptom selection")
         user_profile: UserProfile = step_context.values[self.USER_INFO]
         user_profile.risk_countries = step_context.result
+        if user_profile.risk_countries is not None and len(user_profile.risk_countries) > 0:
+            user_profile.risk_countries_bool = True
 
         # Otherwise, start the review selection dialog.
         return await step_context.begin_dialog(SymptomsSelectionDialog.__name__)
 
     async def temparature_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
         # Set the user's name to what they entered in response to the name prompt.
-        user_profile = step_context.values[self.USER_INFO]
+        user_profile: UserProfile = step_context.values[self.USER_INFO]
         user_profile.symptoms = step_context.result
+        if user_profile.symptoms is not None and len(user_profile.symptoms) > 0:
+            print("[DEBUG] Setting critical symtoms bool to true with symptoms " + str(user_profile.symptoms))
+            user_profile.critical_symptoms_bool = True
 
         if "Fieber" in user_profile.symptoms:
             prompt_options = PromptOptions(
@@ -154,11 +159,13 @@ class TopLevelDialog(ComponentDialog):
         user_profile.contact_risk_1_date = contact_dates[0]
         user_profile.contact_risk_2_date = contact_dates[1]
         print("[DEBUG] Current date " + date.today().strftime("%Y%m%d"))
-        if user_profile.contact_risk_1_date is not None:
+        if contact_dates[0] is not None:
+            print("[DEBUG] " + contact_dates[0])
             print("[DEBUG] Time diff risk contact 1: " + str(int(date.today().strftime("%Y%m%d")) - int(user_profile.contact_risk_1_date.replace("-", ""))))
             if int(date.today().strftime("%Y%m%d")) - int(user_profile.contact_risk_1_date.replace("-", "")) <= 14:
                 user_profile.contact_risk_1_bool = True
-        if user_profile.contact_risk_2_date is not None:
+        if contact_dates[1] is not None:
+            print("[DEBUG] " + contact_dates[1])
             print("[DEBUG] Time diff risk contact 2: " + str(int(date.today().strftime("%Y%m%d")) - int(user_profile.contact_risk_2_date.replace("-", ""))))
             if int(date.today().strftime("%Y%m%d")) - int(user_profile.contact_risk_2_date.replace("-", "")) <= 14:
                 user_profile.contact_risk_2_bool = True
