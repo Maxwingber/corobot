@@ -6,10 +6,11 @@
 Während des WirVsVirus Hackathon haben wir Gesundheitsämter gefragt, welche Probleme bei der Identifizierung von Fällen von COVID-19 bestehen. Wir hatten eine Antwortrate von unglaublichen 1%! Zum Glück haben wir über 400 Gesundheitsämter kontaktiert. ;-) 
 
 Die Ergebnisse: 
-* Riskikofaktoren die immer abgefragt werden: Auslandsaufenthalt, Kontakt zu Infizierten, Symptome
-* 14 Tage pflicht Quarantäne für Funktionsträger, die aus Risikogebieten zurückkehren (Hessen)
-* Unterschiedlichste Verfahren zwischen den Kommunen und Ländern, bisher fehlt eine BestPractice
-* Erschrekend unterschiedliche Technologiestandards, einige Komunen fragen automatisiert über Web app ab, andere nutzen Excel mit         händischer eintragung und in einem fall füllten MitarbeiterInnen Papierformulare aus 
+* Riskikofaktoren die immer abgefragt werden: Auslandsaufenthalt, Kontakt zu Infizierten, Symptome - jeweils mit Daten
+* 14 Tage Pflichtquarantäne für Funktionsträger, die aus Risikogebieten zurückkehren
+* Unterschiedlichste Registrierungsverfahren zwischen den Kommunen und Ländern, bisher fehlt eine BestPractice
+* Erschreckend unterschiedliche Technologiestandards, einige Komunen fragen automatisiert über Webapp ab, andere händisch auf Papier
+* Meiste Zeit wird oft mit Aufnahme der Personendaten verbraucht
 
 Vielen Dank an die Folgenden Gesundheitsämter. Sie haben sich trotz der besonderen Situation die Zeit genommen und Mühe gemacht, unsere Anfrage zu beantworten. 
 
@@ -23,7 +24,7 @@ Vielen Dank an die Folgenden Gesundheitsämter. Sie haben sich trotz der besonde
 
 ## Lösung
 
-Automatisierte Abfrage und Datenaufnahme von Menschen die aufgrund des COVID-19 die lokalen Gesunheitsämter kontaktieren. Die Abfrage läuft zunächst Online, allerdings ist alles soweit vorbereitet um auch eine telefonische Abfrage zu implementieren.
+Automatisierte Abfrage und Datenaufnahme von Menschen, die aufgrund von COVID-19 die lokalen Gesunheitsämter kontaktieren. Die Abfrage läuft zunächst Online, allerdings ist der Bot mit beliebigem Frontend bedienbar. Dadurch ist der Plan, als nächstes eine telefonische Abfrage für Menschen ohne Internetzugang und eine nahtlosere Integration in die Bürgerhotlines zu implementieren.
 
 ## How To
 
