@@ -1,8 +1,8 @@
-# Complex dialog sample
+# Corobot 
 
-This sample creates a complex conversation with dialogs.
+Automatisierte Abfrage und Datenaufnahme von Menschen die aufgrund des COVID-19 die lokalen Gesunheitsämter kontaktieren.
 
-## Running the sample
+## Ausführen des Programs
 - Clone the repository
 ```bash
 git clone https://github.com/Microsoft/botbuilder-samples.git
@@ -12,7 +12,7 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 - In the terminal, type `pip install -r requirements.txt`
 - Run your bot with `python app.py`
 
-## Testing the bot using Bot Framework Emulator
+## Bot Testen mit Framework Emulator
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
 - Install the Bot Framework emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
