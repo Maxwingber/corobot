@@ -6,17 +6,17 @@
 Während des WirVsVirus Hackathon haben wir Gesundheitsämter gefragt, welche Probleme bei der Identifizierung von Fällen von COVID-19 bestehen. Wir hatten eine Antwortrate von unglaublichen 1%! Zum Glück haben wir über 400 Gesundheitsämter kontaktiert. ;-) 
 
 Die Ergebnisse: 
-* Riskikofaktoren die immer abgefragt werden: Auslandsaufenthalt, Kontakt zu Infizierten, Symptome - jeweils mit Daten
-* 14 Tage Pflichtquarantäne für Funktionsträger, die aus Risikogebieten zurückkehren
-* Unterschiedlichste Registrierungsverfahren zwischen den Kommunen und Ländern, bisher fehlt eine BestPractice
-* Erschreckend unterschiedliche Technologiestandards, einige Komunen fragen automatisiert über Webapp ab, andere händisch auf Papier
-* Meiste Zeit wird oft mit Aufnahme der Personendaten verbraucht
+* Riskikofaktoren die immer abgefragt werden: Auslandsaufenthalte, Kontakte zu Infizierten der Risikoklassen 1 und 2, Symptome - jeweils mit Datum
+* 14 Tage Pflichtquarantäne für Funktionsträger (Ärzte, THW, Feuerwehr etc.) die aus Risikogebieten zurückkehren
+* Unterschiedlichste Registrierungsverfahren zwischen den Kommunen und Ländern, bisher fehlt eine Best Practice
+* Signifikant unterschiedliche Technologiestandards, einige Komunen fragen automatisiert über Webapps ab, andere notieren am Telefon alles händisch auf Papier
+* Die meiste Zeit wird oft mit Aufnahme der Personendaten verbraucht
 
-Vielen Dank an die Folgenden Gesundheitsämter. Sie haben sich trotz der besonderen Situation die Zeit genommen und Mühe gemacht, unsere Anfrage zu beantworten. 
+Ein besonderer Dank gebührt folgenden Gesundheitsämtern. Sie haben sich trotz der besonderen Situation die Zeit genommen und sich die Mühe gemacht, uns bei der Konkretisierung der Problempunkte zu helfen.
 
 * Gesundheitsamt Helmstedt
 * Gesundheitsamt Berlin-Spandau
-* Gesundheitsamt Main-Taunus-Kreis 
+* Gesundheitsamt Main-Taunus-Kreis
 * Gesundheitsamt Emden
 * Gesundheitsamt Hof
 * Gesundheitsamt Soest
@@ -24,7 +24,9 @@ Vielen Dank an die Folgenden Gesundheitsämter. Sie haben sich trotz der besonde
 
 ## Lösung
 
-Automatisierte Abfrage und Datenaufnahme von Menschen, die aufgrund von COVID-19 die lokalen Gesundheitsämter kontaktieren. Die Abfrage läuft zunächst Online, allerdings ist der Bot mit beliebigem Frontend bedienbar. Dadurch ist der Plan, als nächstes eine telefonische Abfrage für Menschen ohne Internetzugang und eine nahtlosere Integration in die Bürgerhotlines zu implementieren.
+Automatisierte Abfrage und Datenaufnahme von Menschen, die aufgrund von COVID-19 die lokalen Gesundheitsämter kontaktieren. Die Abfrage läuft zunächst Online, allerdings ist der Bot mit beliebigem Frontend bedienbar. Daher ist der Plan, als nächstes eine telefonische Abfrage für Menschen ohne Internetzugang und eine nahtlosere Integration in die Bürgerhotlines zu implementieren.
+Weiterhin werden abhängig von den angegebenen Risikofaktoren peronalisierte Informationen und Verhaltensratschläge ausgegeben.
+Insgesamt werden durch den *Corobot* die Gespräche in den Hotlines verkürzt, was zu einem höheren Durchsatz und einer kürzeren Wartezeit für die BügerInnen führt.
 
 ## How To
 
