@@ -144,7 +144,7 @@ class TopLevelDialog(ComponentDialog):
 
     async def job_claim_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
         user_profile: UserProfile = step_context.values[self.USER_INFO]
-        user_profile.contacts = step_context.result
+        user_profile.contact_names = step_context.result
         return await step_context.begin_dialog(ChoicePrompt.__name__, PromptOptions(
             prompt=MessageFactory.text("Arbeiten Sie in einem systemkritischen Bereich?"),
             choices=[Choice("Ja"), Choice("Nein")]
