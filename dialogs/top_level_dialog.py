@@ -284,8 +284,21 @@ class TopLevelDialog(ComponentDialog):
 
 
         await step_context.context.send_activity(
+            #symptoms_str: str = None
+            #if str(user_profile.symptoms) == "[]":
+            #    symptoms_str = "keine"
+            #else:
+            #    symptoms_str = str(user_profile.symptoms) + " seit " + user_profile.symptoms_date
+
             # MessageFactory.text(base64.b64encode(bytearray(str(user_profile.__dict__), 'utf-8'))) TODO
-            MessageFactory.text(str(user_profile.__dict__) + "\n" + str(user_profile.personal_data.__dict__))
+            #MessageFactory.text(str(user_profile.__dict__) + "\n" + str(user_profile.personal_data.__dict__))
+            MessageFactory.text("Ihre Angaben:\n\nName, Vorname: " + user_profile.personal_data.family_name + ", " + user_profile.personal_data.first_name +\
+            "\n\nGeburtsdatum: " + user_profile.personal_data.birthday +\
+            "\n\nGeschlecht: " + user_profile.personal_data.gender +\
+            "\n\nAdresse: " + user_profile.personal_data.street + ", " + user_profile.personal_data.zipcode + " " + user_profile.personal_data.city +\
+            "\n\nTelefonnr.: " + user_profile.personal_data.telephone +\
+            "\n\nEmail: " + user_profile.personal_data.email +\
+            "\n\n\n\nSymptome: " + str(user_profile.symptoms))
         )
 
         print("[DEBUG] Final user object created:\n" + str(user_profile.__dict__))
