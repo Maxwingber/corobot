@@ -313,19 +313,24 @@ class TopLevelDialog(ComponentDialog):
             print("[DEBUG] no personal_data")
 
         take_out = ""
-        
+        take_out += "\n\nSymptome: "
         if (len(user_profile.symptoms) > 0):
-            take_out += "\n\nSymptome: "
             for i in range(0,len(user_profile.symptoms)):
                 take_out += user_profile.symptoms[i] + " seit " + user_profile.symptoms_dates[i] + ", "#
             take_out = take_out[0:len(take_out)-2]
+        else:
+            take_out += "keine"
+
         if (user_profile.fever_temp != 0.0):
             take_out += "\n\nFiebertemperatur: " + str(user_profile.fever_temp).replace(".", ",") + "°C"
+        
+        take_out += "\n\nBesuchte Risikogebiete: "
         if (user_profile.risk_countries_bool):
-            take_out += "\n\nBesuchte Risikogebiete: "
             for i in range(0, len(user_profile.risk_countries)):
                 take_out += user_profile.risk_countries[i] + " bis " + user_profile.risk_country_returndates[i] + ", "
             take_out = take_out[0:len(take_out)-2]
+        else:
+            take_out += "keine"
         
         ausgabe += take_out
 
