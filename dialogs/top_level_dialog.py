@@ -128,8 +128,10 @@ class TopLevelDialog(ComponentDialog):
     async def temparature_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
         # Set the user's name to what they entered in response to the name prompt.
         user_profile: UserProfile = step_context.values[self.USER_INFO]
-        user_profile.symptoms = step_context.result
+        user_profile.symptoms = step_context.result[0]
+        user_profile.symptoms_dates = step_context.result[1]
         print("[DEBUG] Symptoms are " + str(user_profile.symptoms))
+        print("[DEBUG] Corresponding dates are " + str(user_profile.symptoms))
         if user_profile.symptoms is not None and len(user_profile.symptoms) > 0 and (any(user_profile.symptoms) is x for x in ['Husten', 'Lungenentzündung', 'Fieber']):
             print("[DEBUG] Setting critical symtoms bool to true with symptoms " + str(user_profile.symptoms))
             user_profile.critical_symptoms_bool = True
@@ -206,6 +208,15 @@ class TopLevelDialog(ComponentDialog):
             # Start the personal data dialog.
             return await step_context.begin_dialog(PersonalDataDialog.__name__)
 
+        if user_profile.risk_countries_bool is True and user_profile.critical_symptoms_bool is True:
+            # Thank them for participating.
+            await step_context.context.send_activity(
+                MessageFactory.text(
+                    f"Da Sie sich in den letzten 14 Tagen in einer Risikoregion aufgehalten haben und für Covid-19-typische Symptome zeigen, **melden Sie sich bitte bei Ihrem zuständigen Gesundheitsamt**. Außerdem bitten wir Sie noch einige persönliche Daten für die Übermittlung an das Gesundheitsamt bereitzustellen. **Überwachen Sie bitte zudem Ihre Symptome** und **begeben Sie sich in häusliche Quarantäne**. Empfehlungen zu Ihrem weiteren Handeln finden Sie auf rki.de")
+            )
+            # Start the personal data dialog.
+            return await step_context.begin_dialog(PersonalDataDialog.__name__)
+
         if user_profile.contact_risk_2_bool is True:
             # Thank them for participating.
             await step_context.context.send_activity(
@@ -215,7 +226,34 @@ class TopLevelDialog(ComponentDialog):
             # Start the personal data dialog.
             return await step_context.begin_dialog(PersonalDataDialog.__name__)
 
-        if user_profile.critical_symptoms_bool == True:
+        if user_profile.critical_symptoms_bool is True and user_profile.critical_job is True:
+            # Thank them for participating.
+            await step_context.context.send_activity(
+                MessageFactory.text(
+                    f"Sie gelten nicht als Kontaktperson, arbeiten jedoch in einem systemkritischen Beruf. Bitte **melden Sie sich bei Ihrem zuständigen Gesundheitsamt**. Außerdem bitten wir Sie noch einige persönliche Daten für die Übermittlung an das Gesundheitsamt bereitzustellen. **Überwachen Sie zudem bitte Ihre Symptome** und **begeben Sie sich in häusliche Quarantäne**. Empfehlungen zu Ihrem weiteren Handeln finden Sie auf rki.de")
+            )
+            # Start the personal data dialog.
+            return await step_context.begin_dialog(PersonalDataDialog.__name__)
+
+        if user_profile.risk_countries_bool is True:
+            # Thank them for participating.
+            await step_context.context.send_activity(
+                MessageFactory.text(
+                    f"Da Sie sich in den letzten 14 Tagen in einer Risikoregion aufgehalten haben, **überwachen Sie bitte ob Sie Covid-19-typische Symptome entwickeln** und **begeben Sie sich in häusliche Quarantäne**. Empfehlungen zu Ihrem weiteren Handeln finden Sie auf rki.de")
+            )
+            # Start the personal data dialog.
+            return await step_context.next(PersonalData())
+
+        if user_profile.critical_symptoms_bool is True and user_profile.age > 59:
+            # Thank them for participating.
+            await step_context.context.send_activity(
+                MessageFactory.text(
+                    f"Sie gelten nicht als Kontaktperson, gehören jedoch zu einer erhöhten Risikogruppe. Bitte **überwachen Sie Ihre Symptome** und **begeben Sie sich in häusliche Quarantäne**. Empfehlungen zu Ihrem weiteren Handeln finden Sie auf rki.de")
+            )
+            # No personal data required. Return empty personal data.
+            return await step_context.next(PersonalData())
+
+        if user_profile.critical_symptoms_bool is True:
             # Thank them for participating.
             await step_context.context.send_activity(
                 MessageFactory.text(
@@ -248,8 +286,23 @@ class TopLevelDialog(ComponentDialog):
 
 
         await step_context.context.send_activity(
+            #symptoms_str: str = None
+            #if str(user_profile.symptoms) == "[]":
+            #    symptoms_str = "keine"
+            #else:
+            #    symptoms_str = str(user_profile.symptoms) + " seit " + user_profile.symptoms_date
+
             # MessageFactory.text(base64.b64encode(bytearray(str(user_profile.__dict__), 'utf-8'))) TODO
-            MessageFactory.text(str(user_profile.__dict__) + "\n" + str(user_profile.personal_data.__dict__))
+            #MessageFactory.text(str(user_profile.__dict__) + "\n" + str(user_profile.personal_data.__dict__))
+            MessageFactory.text("Ihre Angaben:\n\nName, Vorname: " + user_profile.personal_data.family_name + ", " + user_profile.personal_data.first_name +\
+            "\n\nGeburtsdatum: " + user_profile.personal_data.birthday +\
+            "\n\nGeschlecht: " + user_profile.personal_data.gender +\
+            "\n\nAdresse: " + user_profile.personal_data.street + ", " + user_profile.personal_data.zipcode + " " + user_profile.personal_data.city +\
+            "\n\nTelefonnr.: " + user_profile.personal_data.telephone +\
+            "\n\nEmail: " + user_profile.personal_data.email +\
+            "\n\n\n\nSymptome: " + str(user_profile.symptoms) if len(user_profile.symptoms) is not 0 else "keine" +\
+            (("Fiebertemparatur: " + str(user_profile.symptoms)) if 'Fieber' in user_profile.symptoms else "nixxx") +\
+            "\n\n")
         )
 
         print("[DEBUG] Final user object created:\n" + str(user_profile.__dict__))

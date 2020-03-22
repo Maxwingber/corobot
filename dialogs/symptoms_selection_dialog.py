@@ -8,7 +8,7 @@ from botbuilder.dialogs import (
     WaterfallStepContext,
     DialogTurnResult,
     ComponentDialog,
-    FindChoicesOptions)
+    FindChoicesOptions, DateTimePrompt)
 from botbuilder.dialogs.prompts import ChoicePrompt, PromptOptions
 from botbuilder.dialogs.choices import Choice, FoundChoice
 from botbuilder.core import MessageFactory
@@ -21,6 +21,7 @@ class SymptomsSelectionDialog(ComponentDialog):
         )
 
         self.SYMPTOMS_SELECTED = "value-symptomsSelected"
+        self.SYMPTOMS_DATES = "value-symptomsDates"
         self.DONE_OPTION = "Keins"
 
         self.symptom_options = [
@@ -36,9 +37,10 @@ class SymptomsSelectionDialog(ComponentDialog):
         self.add_dialog(choice)
         self.add_dialog(
             WaterfallDialog(
-                WaterfallDialog.__name__, [self.selection_step, self.loop_step]
+                WaterfallDialog.__name__, [self.selection_step, self.loop_step, self.save_step]
             )
         )
+        self.add_dialog(DateTimePrompt(DateTimePrompt.__name__))
 
         self.initial_dialog_id = WaterfallDialog.__name__
 
@@ -50,8 +52,13 @@ class SymptomsSelectionDialog(ComponentDialog):
         # eventually be returned to the parent via end_dialog.
         selected: [
             str
-        ] = step_context.options if step_context.options is not None else []
+        ] = step_context.options[0] if step_context.options is not None and step_context.options[0] is not None else []
         step_context.values[self.SYMPTOMS_SELECTED] = selected
+
+        dates: [
+            str
+        ] = step_context.options[1] if step_context.options is not None and step_context.options[1] is not None else []
+        step_context.values[self.SYMPTOMS_DATES] = dates
 
         if len(selected) == 0:
             message = (
@@ -76,6 +83,7 @@ class SymptomsSelectionDialog(ComponentDialog):
         )
         return await step_context.prompt(ChoicePrompt.__name__, prompt_options)
 
+
     def _to_choices(self, choices: [str]) -> List[Choice]:
         choice_list: List[Choice] = []
         for choice in choices:
@@ -84,18 +92,34 @@ class SymptomsSelectionDialog(ComponentDialog):
 
     async def loop_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
         selected: List[str] = step_context.values[self.SYMPTOMS_SELECTED]
+        dates: List[str] = step_context.values[self.SYMPTOMS_DATES]
         choice: FoundChoice = step_context.result
         done = choice.value == self.DONE_OPTION
 
         # If they chose a company, add it to the list.
         if not done:
             selected.append(choice.value)
+            return await step_context.prompt(
+                DateTimePrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text(
+                        "Seit wann leiden Sie an diesem Symptom? Bitte nennen Sie das Datum im Format TT.MM.JJJJ (z.B. 03.03.2020)."),
+                ),
+            )
 
         # If they're done, exit and return their list.
-        if done or len(selected) >= 5:
-            return await step_context.end_dialog(selected)
+        if done or len(selected) >= len(self.symptom_options):
+            print("[DEBUG] Symptoms selection ending now with " + str([selected, dates]))
+            return await step_context.end_dialog([selected, dates])
 
-        # Otherwise, repeat this dialog, passing in the selections from this iteration.
+
+    async def save_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+        selected: List[str] = step_context.values[self.SYMPTOMS_SELECTED]
+        dates: List[str] = step_context.values[self.SYMPTOMS_DATES]
+        choice: FoundChoice = step_context.result
+        date = str(choice[0].value)
+        dates.append(date)
         return await step_context.replace_dialog(
-            SymptomsSelectionDialog.__name__, selected
+            SymptomsSelectionDialog.__name__, [selected, dates]
         )
+

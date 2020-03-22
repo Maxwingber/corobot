@@ -5,13 +5,13 @@ from typing import List
 
 class PersonalData:
     def __init__(self, family_name: str = None, first_name: str = None, gender: str = None, street: str = None,\
-        plz: int = 0, city: str = None, telephone: str = None, email: str = None,\
+        zipcode: str = None, city: str = None, telephone: str = None, email: str = None,\
         birthday: str = None,):
         self.family_name: str = family_name
         self.first_name: str = first_name
         self.gender: str = gender
         self.street: str = street
-        self.plz: int = plz
+        self.zipcode: str = zipcode
         self.city: str = city
         self.telephone: str = telephone
         self.email: str = email
@@ -19,7 +19,7 @@ class PersonalData:
 
 class UserProfile:
     def __init__(
-        self, age: int = 0, name: str = None, symptoms: List[str] = None, symptoms_date: str = None,\
+        self, age: int = 0, name: str = None, symptoms: List[str] = None, symptoms_dates: str = None,\
         fever_temp: float = 0.0, critical_symptoms_bool: bool = False,\
         risk_countries_bool: bool = False, risk_countries: List[str] = None,\
         risk_country_returndate: str = None, contact_risk_1_bool: bool = False,\
@@ -31,7 +31,7 @@ class UserProfile:
         self.age: int = age
         
         self.symptoms: List[str] = symptoms
-        self.symptoms_date: str = symptoms_date
+        self.symptoms_dates: List[str] = symptoms_dates
         self.fever_temp: float = fever_temp
         self.critical_symptoms_bool: bool = critical_symptoms_bool      # macht vielleicht Sinn
         self.risk_countries_bool: bool = risk_countries_bool    # macht vielleicht Sinn
