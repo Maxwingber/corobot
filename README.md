@@ -22,6 +22,7 @@ Ein besonderer Dank gebührt folgenden Gesundheitsämtern. Sie haben sich trotz 
 * Gesundheitsamt Main-Taunus-Kreis
 * Gesundheitsamt Neustadt Bad-Dürkheim
 * Gesundheitsamt Soest
+* Gesundheitsamt Bamberg
 
 ## Lösung
 
