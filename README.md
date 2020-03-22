@@ -24,9 +24,9 @@ Ein besonderer Dank gebührt folgenden Gesundheitsämtern. Sie haben sich trotz 
 
 ## Lösung
 
-Automatisierte Abfrage und Datenaufnahme von Menschen, die aufgrund von COVID-19 die lokalen Gesundheitsämter kontaktieren. Die Abfrage läuft zunächst Online, allerdings ist der Bot mit beliebigem Frontend bedienbar. Daher ist der Plan, als nächstes eine telefonische Abfrage für Menschen ohne Internetzugang und eine nahtlosere Integration in die Bürgerhotlines zu implementieren.
-Weiterhin werden abhängig von den angegebenen Risikofaktoren peronalisierte Informationen und Verhaltensratschläge ausgegeben.
-Insgesamt werden durch den *Corobot* die Gespräche in den Hotlines verkürzt, was zu einem höheren Durchsatz und einer kürzeren Wartezeit für die BügerInnen führt.
+Corobot ermöglicht die automatisierte Datenaufnahme und -auswertung bei Menschen, die aufgrund der COVID-19-Pandemie in Deutschland die lokalen Gesundheitsämter kontaktieren. Corobot ist mit jedem beliebigem Frontend verknüpfbar und kann dadurch auf einer [Website](https://corobot2020.z16.web.core.windows.net/), in einem [Telegram-Bot](t.me/Corobotbot) oder am Telefon als Sprachcomputer kontaktiert werden. Die Möglichkeit zur Integration als Sprachcomputer ist besonders für Menschen ohne Internetzugang sowie zur Integration in Bürgerhotlines extrem wichtig. 
+
+Abhängig von den angegebenen Risikofaktoren werden peronalisierte Informationen und Verhaltensratschläge angezeigt. Das ermittelte Risikoprofil und die Stammdaten werden bei Bedarf als Data Takeout angeboten statt zentral gespeichert, um diese maschinen- und menschenlesbar, gesammelt und datenschutzfreundlich an das lokale Gesundheitsamt übermittelbar zu machen. Dadurch wird *Corobot* die Gespräche in Hotlines verkürzen, einen höheren Durchsatz erzugen und damit die Wartezeiten für BügerInnen verkürzen.
 
 ## How To
 
