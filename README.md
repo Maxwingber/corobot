@@ -30,7 +30,7 @@ Automatisierte Abfrage und Datenaufnahme von Menschen die aufgrund des COVID-19 
 ### Ausführen des Programs
 - Repository klonen
 ```bash
-git clone https://github.com/Microsoft/botbuilder-samples.git
+git clone https://github.com/Maxwingber/corobot.git
 ```
 - In einem Terminal in den Ordner navigieren
 - `pip install -r requirements.txt` ausführen um die Anforderungen zu installieren
