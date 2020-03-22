@@ -23,6 +23,12 @@ p {
   margin-bottom: 20px
 }
 
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
 iframe {
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
   border: 10px solid black;
@@ -38,4 +44,10 @@ iframe {
   max-height: 450px;
   max-width: 450px;
   width: 100%;
+}
+
+.wvv {
+  margin-top: 50px;
+  height: 77px;
+  margin-bottom: 10px;
 }
