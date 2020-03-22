@@ -68,7 +68,7 @@ class TopLevelDialog(ComponentDialog):
 
         # Ask the user to enter their name.
         prompt_options = PromptOptions(
-            prompt=MessageFactory.text("Hallo, wie heißen Sie?")
+            prompt=MessageFactory.text("Wie heißen Sie denn?")
         )
         return await step_context.prompt(TextPrompt.__name__, prompt_options)
 
@@ -79,7 +79,7 @@ class TopLevelDialog(ComponentDialog):
 
         # Ask the user to enter their age.
         prompt_options = PromptOptions(
-            prompt=MessageFactory.text("Wie alt sind Sie?"),
+            prompt=MessageFactory.text("Hallo " + user_profile.name + "! Wie alt sind Sie?"),
             retry_prompt=MessageFactory.text("Bitte geben Sie Ihr Alter als Zahl an.")
         )
         return await step_context.prompt(NumberPrompt.__name__, prompt_options)

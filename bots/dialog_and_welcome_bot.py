@@ -34,7 +34,6 @@ class DialogAndWelcomeBot(DialogBot):
                 turn_context.activity.locale = "de"
                 await turn_context.send_activity(
                     MessageFactory.text(
-                        f"Wilkommen beim **Corobot**! Sagen Sie **Hallo**, **Grüß' Gott**, **Servus**, **Moin** oder die"
-                        f" Begrüßung Ihrer Wahl, um mich aufzuwecken."
+                        f"Hallo, ich bin **Corobot**. Lassen Sie uns herausfinden, wie Sie mit COVID-19 umgehen sollten. Sind Sie soweit? "
                     )
                 )
