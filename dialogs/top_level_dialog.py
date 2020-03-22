@@ -293,7 +293,7 @@ class TopLevelDialog(ComponentDialog):
         )
         #time.sleep(1)
         await step_context.context.send_activity(
-            MessageFactory.text(f"Bei weiterer Kommunikation mit Behörden können Sie folgende Zeile anhängen und sparen "
+            MessageFactory.text(f"Bei weiterer Kommunikation mit Behörden können Sie folgende Zusammenfassung anhängen und sparen "
                                 f"sich lästige erneute Nachfragen.")
         )
         ausgabe = "**Wichtige Daten für Ihr Gesundheitsamt**\n\n"
