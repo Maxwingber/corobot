@@ -4,7 +4,7 @@
 ![WirVsVirus Hackathon Logo](assets/Logo_Projekt_01.png)
 
 ## Problem
-Während des WirVsVirus Hackathon haben wir Gesundheitsämter gefragt, welche Probleme bei der Identifizierung von Fällen von COVID-19 bestehen. Wir hatten eine Antwortrate von unglaublichen 1%! Zum Glück haben wir über 400 Gesundheitsämter kontaktiert. 😉
+Während des [WirVsVirus](https://wirvsvirushackathon.org/) Hackathon haben wir Gesundheitsämter gefragt, welche Probleme bei der Identifizierung von Fällen von COVID-19 bestehen. Wir hatten eine Antwortrate von unglaublichen 1%! Zum Glück haben wir über 400 Gesundheitsämter kontaktiert. 😉
 
 Die Ergebnisse: 
 * Viele Riskikofaktoren werden wimmer wieder abgefragt: Auslandsaufenthalte, Kontakte zu Infizierten der Risikoklassen 1 und 2, Symptome
