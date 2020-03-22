@@ -88,7 +88,7 @@ class ContactsSelectionDialog(ComponentDialog):
         # Set the last contact date to a confirmed case to what they entered in response to the name prompt.
         self.FIRST_DATE = "value-firstDate"
         if step_context.result:
-            step_context.values[self.FIRST_DATE] = step_context.result[0].value
+            step_context.values[self.FIRST_DATE] = str(step_context.result[0].value)
         else:
             step_context.values[self.FIRST_DATE] = None
 
@@ -135,15 +135,15 @@ class ContactsSelectionDialog(ComponentDialog):
         # Set the last contact date to a confirmed case to what they entered in response to the name prompt.
         self.SECOND_DATE = "value-secondDate"
         if not step_context.result == None:
-            step_context.values[self.SECOND_DATE] = step_context.result[0].value
+            step_context.values[self.SECOND_DATE] = str(step_context.result[0].value)
         else:
             step_context.values[self.SECOND_DATE] = None
 
         print("[DEBUG] Second date is " + str(step_context.values[self.SECOND_DATE]))
 
-        dates = [str(step_context.values[self.FIRST_DATE]), str(step_context.values[self.SECOND_DATE])]
+        dates = [step_context.values[self.FIRST_DATE], step_context.values[self.SECOND_DATE]]
 
-        print("[DEBUG] The dates are " + dates[0] + " and " + dates[1])
+        print("[DEBUG] The dates are " + str(dates[0]) + " and " + str(dates[1]))
 
         return await step_context.end_dialog(dates)
 
