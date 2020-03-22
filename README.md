@@ -4,20 +4,22 @@
 Während des WirVsVirus Hackathon haben wir Gesundheitsämter gefragt, welche Probleme bei der Identifizierung von Fällen von COVID-19 bestehen. Wir hatten eine Antwortrate von unglaublichen 1%! Zum Glück haben wir über 400 Gesundheitsämter kontaktiert. ;-) 
 
 Die Ergebnisse: 
-* 
-* 
-* 
-* 
+* Riskikofaktoren die immer abgefragt werden: Auslandsaufenthalt, Kontakt zu Infizierten, Symptome
+* 14 Tage pflicht Quarantäne für Funktionsträger, die aus Risikogebieten zurückkehren (Hessen)
+* Unterschiedlichste Verfahren zwischen den Kommunen und Ländern, bisher fehlt eine BestPractice
+* Erschrekend unterschiedliche Technologiestandards, einige Komunen fragen automatisiert über Web app ab, andere nutzen Excel mit         händischer eintragung und in einem fall füllten MitarbeiterInnen Papierformulare aus 
 
-Vielen Dank an die Folgenden Gesundheitsämter. Sie haben sich trotz der besonderen Situation die Zeit genommen und Mühe gemacht, unsere Anfrage zu beantwornten. 
+Vielen Dank an die Folgenden Gesundheitsämter. Sie haben sich trotz der besonderen Situation die Zeit genommen und Mühe gemacht, unsere Anfrage zu beantworten. 
+
 * Gesundheitsamt Helmstedt
-* 
-* 
-* 
+* Gesundheitsamt Berlin-Spandau
+* Gesundheitsamt Main-Taunus-Kreis 
+* Gesundheitsamt Emden
+* Gesundheitsamt Hof
+* Gesundheitsamt Soest
 
 ## Lösung
-
-Automatisierte Abfrage und Datenaufnahme von Menschen die aufgrund des COVID-19 die lokalen Gesunheitsämter kontaktieren.
+Automatisierte Abfrage und Datenaufnahme von Menschen die aufgrund des COVID-19 die lokalen Gesunheitsämter kontaktieren. Die Abfrage läuft zunächst Online, allerdings ist alles soweit vorbereitet um auch eine telefonische Abfrage zu implementieren.
 
 ## How To
 
@@ -36,7 +38,7 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 
 - Install the Bot Framework emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
 
-#### Connect to bot using Bot Framework Emulator
+#### Mit dem Bot verbinden
 - Launch Bot Framework Emulator
 - File -> Open Bot
 - Paste this URL in the emulator window - http://localhost:3978/api/messages
@@ -45,7 +47,7 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
 
-## Further  technical reading
+## Weiterführende Literatur
 
 - [Bot Framework Documentation](https://docs.botframework.com)
 - [Bot Basics](https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
