@@ -329,13 +329,13 @@ class TopLevelDialog(ComponentDialog):
         ausgabe += take_out
 
         ausgabe += "\n\nKontakt mit infizierter Person: " 
-        if user_profile.contact_risk_1_bool:
+        if user_profile.contact_risk_1_date is not None:
             ausgabe += "ja, am " + str(user_profile.contact_risk_1_date)
         else:
             ausgabe += "nein"
 
         ausgabe += "\n\nKontakt mit Verdachtsperson: " 
-        if user_profile.contact_risk_2_bool:
+        if user_profile.contact_risk_2_date is not None:
             ausgabe += "ja, am " + str(user_profile.contact_risk_2_date)
         else:
             ausgabe += "nein"
