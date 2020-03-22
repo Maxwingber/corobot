@@ -131,6 +131,7 @@ class TopLevelDialog(ComponentDialog):
         user_profile.symptoms = step_context.result[0]
         user_profile.symptoms_dates = step_context.result[1]
         print("[DEBUG] Symptoms are " + str(user_profile.symptoms))
+        print("[DEBUG] Corresponding dates are " + str(user_profile.symptoms))
         if user_profile.symptoms is not None and len(user_profile.symptoms) > 0 and (any(user_profile.symptoms) is x for x in ['Husten', 'Lungenentzündung', 'Fieber']):
             print("[DEBUG] Setting critical symtoms bool to true with symptoms " + str(user_profile.symptoms))
             user_profile.critical_symptoms_bool = True
