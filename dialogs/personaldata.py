@@ -7,7 +7,7 @@ from botbuilder.dialogs import (
     WaterfallDialog,
     WaterfallStepContext,
     DialogTurnResult,
-    ComponentDialog)
+    ComponentDialog, ListStyle)
 from botbuilder.dialogs.prompts import ChoicePrompt, PromptOptions, ConfirmPrompt, TextPrompt, NumberPrompt, DateTimePrompt
 from botbuilder.dialogs.choices import Choice, FoundChoice
 from botbuilder.core import MessageFactory, UserState
@@ -28,8 +28,9 @@ class PersonalDataDialog(ComponentDialog):
             WaterfallDialog(
                 WaterfallDialog.__name__,
                 [
-                    self.firstname_step,
-                    self.familyname_step,
+                    self.first_name_step,
+                    self.family_name_step,
+                    self.gender_step,
                     self.street_step,
                     self.zipcode_step,
                     self.city_step,
@@ -50,7 +51,7 @@ class PersonalDataDialog(ComponentDialog):
 
         self.initial_dialog_id = WaterfallDialog.__name__
 
-    async def firstname_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+    async def first_name_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
         # Create an object in which to collect the personal data within the dialog.
         step_context.values[self.PERSONAL_DATA] = PersonalData()
 
@@ -60,10 +61,10 @@ class PersonalDataDialog(ComponentDialog):
         )
         return await step_context.prompt(TextPrompt.__name__, prompt_options)
 
-    async def familyname_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+    async def family_name_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
             # Set the user's first name to what they entered in response to the firstname prompt.
             personal_data = step_context.values[self.PERSONAL_DATA]
-            personal_data.firstname = step_context.result
+            personal_data.first_name = step_context.result
 
             # Ask the user to enter their family name.
             prompt_options = PromptOptions(
@@ -71,10 +72,22 @@ class PersonalDataDialog(ComponentDialog):
             )
             return await step_context.prompt(TextPrompt.__name__, prompt_options)
 
-    async def street_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
-            # Set the user's family name to what they entered in response to the family name prompt.
+    async def gender_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+             # Set the user's first name to what they entered in response to the firstname prompt.
             personal_data = step_context.values[self.PERSONAL_DATA]
-            personal_data.familyname = step_context.result
+            personal_data.family_name = step_context.result
+
+            # Ask the user to choose their gender.
+            return await step_context.begin_dialog(ChoicePrompt.__name__, PromptOptions(
+                prompt=MessageFactory.text("Was ist Ihr Geschlecht?"),
+                choices=["Männlich", "Weiblich", "Divers"],
+                style=ListStyle.suggested_action
+            ))
+
+    async def street_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+            # Set the user's gender to what they entered in response to the gender prompt.
+            personal_data = step_context.values[self.PERSONAL_DATA]
+            personal_data.gender = step_context.result
 
             # Ask the user to enter their street and number.
             prompt_options = PromptOptions(
