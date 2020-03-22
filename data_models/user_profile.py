@@ -4,7 +4,7 @@
 from typing import List
 
 class PersonalData:
-    def __init__(self, family_name: str = None, first_name: str = None, age: int = 0, gender: str = None, street: str = None,\
+    def __init__(self, family_name: str = None, first_name: str = None, gender: str = None, street: str = None,\
         plz: int = 0, city: str = None, telephone: str = None, email: str = None,\
         birthday: str = None,):
         self.family_name: str = family_name
@@ -19,7 +19,7 @@ class PersonalData:
 
 class UserProfile:
     def __init__(
-        self, name: str = None, symptoms: List[str] = None, symptoms_date: str = None,\
+        self, age: int = 0, name: str = None, symptoms: List[str] = None, symptoms_date: str = None,\
         fever_temp: float = 0.0, critical_symptoms_bool: bool = False,\
         risk_countries_bool: bool = False, risk_countries: List[str] = None,\
         risk_country_returndate: str = None, contact_risk_1_bool: bool = False,\
