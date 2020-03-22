@@ -181,7 +181,7 @@ class TopLevelDialog(ComponentDialog):
             print("[DEBUG] Recognized system cricital job claim")
             return await step_context.begin_dialog(ChoicePrompt.__name__, PromptOptions(
                 prompt=MessageFactory.text("Zu welcher systemkritischen Gruppe gehören Sie?"),
-                choices=["Polizei", "Feuerwehr", "Richter", "Staatsanwälte", "Justizvollzug", "Rettungsdienst", "THW",
+                choices=["Polizei", "Feuerwehr", "RichterIn", "Staatsanwälte", "Justizvollzug", "Rettungsdienst", "THW",
                          "Katastrophenschutz", "Mediziner", "Pfleger", "Apotheher", "**Keine**"],
                 style=ListStyle.list_style
             ))
@@ -274,7 +274,7 @@ class TopLevelDialog(ComponentDialog):
 
         # Thank them for participating.
         await step_context.context.send_activity(
-            MessageFactory.text(f"Danke für Ihre Mithilfe und das Beantworten der Fragen, {user_profile.name}. Bitte bleiben Sie wenn möglich zu Hause und verlassen Sie Ihr zu Hause nur wenn absolut notwendig.")
+            MessageFactory.text(f"Danke für Ihre Mithilfe und das Beantworten der Fragen, {user_profile.name}. Bitte halten Sie sich an die aktuell geltenden Regelungen und Empfehlungen der Behörden und des Robert-Koch-Instituts (rki.de).")
         )
 
         await step_context.context.send_activity(
