@@ -14,6 +14,8 @@ from data_models import UserProfile
 from dialogs.contact_to_infected import ContactsSelectionDialog
 from dialogs.symptoms_selection_dialog import SymptomsSelectionDialog
 from dialogs.riskcountry_selection_dialog import RiskCountrySelectionDialog
+from dialogs.personaldata import PersonalDataDialog
+
 
 
 
@@ -33,8 +35,7 @@ class TopLevelDialog(ComponentDialog):
 
         self.add_dialog(SymptomsSelectionDialog(SymptomsSelectionDialog.__name__))
         self.add_dialog(ContactsSelectionDialog(ContactsSelectionDialog.__name__))
-
-
+        self.add_dialog(PersonalDataDialog(PersonalDataDialog.__name__))
         self.add_dialog(RiskCountrySelectionDialog(RiskCountrySelectionDialog.__name__))
 
         self.add_dialog(
@@ -50,6 +51,7 @@ class TopLevelDialog(ComponentDialog):
                     self.start_contacts_step,
                     self.job_claim_step,
                     self.job_type_step,
+                    self.personal_data_step,
                     self.acknowledgement_step,
                 ],
             )
@@ -63,7 +65,7 @@ class TopLevelDialog(ComponentDialog):
 
         # Ask the user to enter their name.
         prompt_options = PromptOptions(
-            prompt=MessageFactory.text("Bitte nennen Sie mir Ihren vollen Namen.")
+            prompt=MessageFactory.text("Hallo, wie heißen Sie?")
         )
         return await step_context.prompt(TextPrompt.__name__, prompt_options)
 
@@ -162,13 +164,22 @@ class TopLevelDialog(ComponentDialog):
         else:
             return await step_context.next(Choice("**Keine**"))
 
+    async def personal_data_step(
+            self, step_context: WaterfallStepContext
+    ) -> DialogTurnResult:
+        # Set the user's company selection to what they entered in the review-selection dialog.
+        user_profile: UserProfile = step_context.values[self.USER_INFO]
+        if step_context.result.value != "**Keine**":
+            user_profile.critical_job = step_context.result.value
+
+        # Otherwise, start the personal data dialog.
+        return await step_context.begin_dialog(PersonalDataDialog.__name__)
+
     async def acknowledgement_step(
         self, step_context: WaterfallStepContext
     ) -> DialogTurnResult:
         # Set the user's company selection to what they entered in the review-selection dialog.
         user_profile: UserProfile = step_context.values[self.USER_INFO]
-        if step_context.result.value != "**Keine**":
-                user_profile.critical_job = step_context.result.value
 
         # Thank them for participating.
         await step_context.context.send_activity(
