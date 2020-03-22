@@ -200,7 +200,7 @@ class TopLevelDialog(ComponentDialog):
             # Thank them for participating.
             await step_context.context.send_activity(
                 MessageFactory.text(
-                    f"Da Sie als Kontaktperson der Kategorie eingestuft werden, melden Sie sich bitte sofort bei Ihrem zuständigen Gesundheitsamt. Außerdem bitten wir Sie noch einige persönliche Daten für die Übermittlung an das Gesundheitsamt bereitzustellen. Überwachen Sie zudem bitte Ihre Symptome und bewegen Sie sich in häusliche Quarantäne. Empfehlungen zu Ihrem weiteren Handeln finden Sie auf rki.de")
+                    f"Da Sie als Kontaktperson der Kategorie 1 eingestuft werden, **melden Sie sich bitte sofort bei Ihrem zuständigen Gesundheitsamt**. Außerdem bitten wir Sie noch einige persönliche Daten für die Übermittlung an das Gesundheitsamt bereitzustellen. **Überwachen Sie bitte zudem Ihre Symptome** und **begeben Sie sich in häusliche Quarantäne**. Empfehlungen zu Ihrem weiteren Handeln finden Sie auf rki.de")
             )
             # Start the personal data dialog.
             return await step_context.begin_dialog(PersonalDataDialog.__name__)
@@ -209,7 +209,7 @@ class TopLevelDialog(ComponentDialog):
             # Thank them for participating.
             await step_context.context.send_activity(
                 MessageFactory.text(
-                    f"Bitte warten Sie ab, ob sich Ihre Kontaktperson als bestätigter Fall herausstellt. Sollte sich der Fall bestätigen, melden Sie sich bitte bei Ihrem zuständigen Gesundheitsamt. Für diesen Fall bitten wir Sie noch einige persönliche Daten für die Übermittlung an das Gesundheitsamt bereitzustellen. Überwachen Sie zudem bitte Ihre Symptome und bewegen Sie sich in häusliche Quarantäne. Empfehlungen zu Ihrem weiteren Handeln finden Sie auf rki.de")
+                    f"Bitte warten Sie ab, ob sich Ihre Kontaktperson als bestätigter Fall herausstellt. Sollte sich der Fall bestätigen, melden Sie sich bitte bei Ihrem zuständigen Gesundheitsamt. Für diesen Fall bitten wir Sie noch einige persönliche Daten für die Übermittlung an das Gesundheitsamt bereitzustellen. **Überwachen Sie zudem bitte Ihre Symptome** und **begeben Sie sich in häusliche Quarantäne**. Empfehlungen zu Ihrem weiteren Handeln finden Sie auf rki.de")
             )
             # Start the personal data dialog.
             return await step_context.begin_dialog(PersonalDataDialog.__name__)
@@ -218,7 +218,7 @@ class TopLevelDialog(ComponentDialog):
             # Thank them for participating.
             await step_context.context.send_activity(
                 MessageFactory.text(
-                    f"Sie gelten nicht als Kontaktperson. Bitte überwachen Sie Ihre Symptome und begeben Sie sich in häusliche Quarantäne. Empfehlungen zu Ihrem weiteren Handeln finden Sie auf rki.de")
+                    f"Sie gelten nicht als Kontaktperson. Bitte **überwachen Sie Ihre Symptome** und **begeben Sie sich in häusliche Quarantäne**. Empfehlungen zu Ihrem weiteren Handeln finden Sie auf rki.de")
             )
             # No personal data required. Return empty personal data.
             return await step_context.next(PersonalData())
@@ -237,7 +237,7 @@ class TopLevelDialog(ComponentDialog):
 
         # Thank them for participating.
         await step_context.context.send_activity(
-            MessageFactory.text(f"Danke für Ihre Mithilfe und das Beantworten der Fragen, {user_profile.name}. ")
+            MessageFactory.text(f"Danke für Ihre Mithilfe und das Beantworten der Fragen, {user_profile.name}. Bitte bleiben Sie wenn möglich zu Hause und verlassen Sie Ihr zu Hause nur wenn absolut notwendig.")
         )
 
         await step_context.context.send_activity(
