@@ -7,7 +7,7 @@ from botbuilder.dialogs import (
     WaterfallDialog,
     WaterfallStepContext,
     DialogTurnResult,
-    ComponentDialog, FindChoicesOptions)
+    ComponentDialog, FindChoicesOptions, DateTimePrompt)
 from botbuilder.dialogs.prompts import ChoicePrompt, PromptOptions
 from botbuilder.dialogs.choices import Choice, FoundChoice
 from botbuilder.core import MessageFactory
@@ -20,6 +20,7 @@ class RiskCountrySelectionDialog(ComponentDialog):
         )
 
         self.RISK_COUNTRIES_SELECTED = "value-symptomsSelected"
+        self.RISK_COUNTRIES_DATES = "value-symptomsDates"
         self.DONE_OPTION = "**Keine**"
 
         self.riskcountry_options = [
@@ -38,9 +39,11 @@ class RiskCountrySelectionDialog(ComponentDialog):
         self.add_dialog(choice)
         self.add_dialog(
             WaterfallDialog(
-                WaterfallDialog.__name__, [self.selection_step, self.loop_step]
+                WaterfallDialog.__name__, [self.selection_step, self.loop_step, self.save_step]
             )
         )
+
+        self.add_dialog(DateTimePrompt(DateTimePrompt.__name__))
 
         self.initial_dialog_id = WaterfallDialog.__name__
 
@@ -52,8 +55,15 @@ class RiskCountrySelectionDialog(ComponentDialog):
         # eventually be returned to the parent via end_dialog.
         selected: [
             str
-        ] = step_context.options if step_context.options is not None else []
+        ] = step_context.options[0] if step_context.options is not None else []
         step_context.values[self.RISK_COUNTRIES_SELECTED] = selected
+
+        dates: [
+            str
+        ] = step_context.options[1] if step_context.options is not None and step_context.options[1] is not None else []
+        step_context.values[self.RISK_COUNTRIES_DATES] = dates
+
+        print("[DEBUG] Risk countries and dates currently looks like " + str([selected, dates]))
 
         if len(selected) == 0:
             message = (
@@ -86,18 +96,34 @@ class RiskCountrySelectionDialog(ComponentDialog):
 
     async def loop_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
         selected: List[str] = step_context.values[self.RISK_COUNTRIES_SELECTED]
+        dates: List[str] = step_context.values[self.RISK_COUNTRIES_DATES]
         choice: FoundChoice = step_context.result
         done = choice.value == self.DONE_OPTION
 
         # If they chose a company, add it to the list.
         if not done:
+            print("[DEBUG] Appending to risk country list: " + choice.value)
             selected.append(choice.value)
+            return await step_context.prompt(
+                DateTimePrompt.__name__,
+                PromptOptions(
+                    prompt=MessageFactory.text(
+                        "Wann waren Sie zuletzt in **"+ choice.value + "**? Bitte nennen Sie das Datum im Format TT.MM.JJJJ (z.B. 03.03.2020)."),
+                ),
+            )
 
         # If they're done, exit and return their list.
         if done or len(selected) >= len(self.riskcountry_options):
-            return await step_context.end_dialog(selected)
+            print("[DEBUG] Risk country selection ending now with " + str([selected, dates]))
+            return await step_context.end_dialog([selected, dates])
 
-        # Otherwise, repeat this dialog, passing in the selections from this iteration.
+    async def save_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
+        selected: List[str] = step_context.values[self.RISK_COUNTRIES_SELECTED]
+        dates: List[str] = step_context.values[self.RISK_COUNTRIES_DATES]
+        choice: FoundChoice = step_context.result
+        date = str(choice[0].value)
+        dates.append(date)
         return await step_context.replace_dialog(
-            RiskCountrySelectionDialog.__name__, selected
+            RiskCountrySelectionDialog.__name__, [selected, dates]
         )
+

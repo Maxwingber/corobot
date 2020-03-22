@@ -118,9 +118,12 @@ class TopLevelDialog(ComponentDialog):
         # Set the user's age to what they entered in response to the age prompt.
         print("[DEBUG] Arrived in symptom selection")
         user_profile: UserProfile = step_context.values[self.USER_INFO]
-        user_profile.risk_countries = step_context.result
+        user_profile.risk_countries = step_context.result[0]
+        user_profile.risk_country_returndates = step_context.result[1]
         if user_profile.risk_countries is not None and len(user_profile.risk_countries) > 0:
             user_profile.risk_countries_bool = True
+
+        print("[DEBUG] Risk countries and returndates are\n" + str(user_profile.risk_countries) + "\n" + str(user_profile.risk_country_returndates))
 
         # Otherwise, start the review selection dialog.
         return await step_context.begin_dialog(SymptomsSelectionDialog.__name__)

@@ -19,10 +19,10 @@ class PersonalData:
 
 class UserProfile:
     def __init__(
-        self, age: int = 0, name: str = None, symptoms: List[str] = None, symptoms_dates: str = None,\
+        self, age: int = 0, name: str = None, symptoms: List[str] = None, symptoms_dates: List[str] = None,\
         fever_temp: float = 0.0, critical_symptoms_bool: bool = False,\
         risk_countries_bool: bool = False, risk_countries: List[str] = None,\
-        risk_country_returndate: str = None, contact_risk_1_bool: bool = False,\
+        risk_country_returndates: List[str] = None, contact_risk_1_bool: bool = False,\
         contact_risk_1_date: str = None, contact_risk_2_bool: bool = False,\
         contact_risk_2_date: str = None, contact_names: List[str] = None,\
         critical_job: str = None, risk_category: int = 0, personal_data: PersonalData = None
@@ -36,7 +36,7 @@ class UserProfile:
         self.critical_symptoms_bool: bool = critical_symptoms_bool      # macht vielleicht Sinn
         self.risk_countries_bool: bool = risk_countries_bool    # macht vielleicht Sinn
         self.risk_countries: List[str] = risk_countries
-        self.risk_country_returndate: str = risk_country_returndate
+        self.risk_country_returndates: str = risk_country_returndates
         
         self.contact_risk_1_bool: bool = contact_risk_1_bool
         self.contact_risk_1_date: str = contact_risk_1_date
