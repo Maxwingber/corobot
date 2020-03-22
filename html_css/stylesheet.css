@@ -1,6 +1,7 @@
 body {
   background-color: white;
   font-family: 'Open Sans', sans-serif;
+  color: #767676;
 }
 
 h1 {
@@ -20,23 +21,17 @@ p {
 
 
 .mrg_bot_20 {
-  margin-bottom: 20px
+  margin-bottom: 20px;
+}
+
+.pd_right_20 {
+  padding-right: 50px;
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-}
-
-iframe {
-  box-shadow: 0 0 10px rgba(0,0,0,0.5);
-  border: 10px solid black;
-  border-radius: 20px;
-  border-color: #16DDD6;
-/*  #09D1F4   00DCBE*/
-  height: 100%;
-  width: 100%;
 }
 
 .corobot {
@@ -51,3 +46,85 @@ iframe {
   height: 77px;
   margin-bottom: 10px;
 }
+
+
+/*Webchat*/
+
+
+.wc-header {
+  background-color: white !important;
+  padding: 20px !important;
+  box-shadow: none !important;
+}
+
+.wc-header span {
+  font-family: 'Open Sans', sans-serif;
+  color: #767676;
+  font-size: 30px;
+}
+
+.wc-chatview-panel {
+  box-shadow: 0 0 10px rgba(0,0,0,0.5);
+  border: 10px solid black;
+  border-radius: 20px;
+  border-color: #16DDD6;
+}
+
+.wc-message-groups {
+  border-radius: 20px 0 0 20px !important;
+}
+
+.wc-upload {
+  width: 1px !important;
+  display: none !important;
+}
+
+.wc-console {
+  border-radius: 10px !important;
+  margin: 5px !important;
+}
+
+
+.wc-message-from-me .wc-message-content {
+  background-color: #CDFB87 !important;
+  color: black !important;
+  border-radius: 5px !important;
+}
+
+.point-right {
+  fill: #CDFB87 !important;
+}
+
+
+.wc-message-from-bot .wc-message-content {
+  background-color: #08b7ce !important;
+  color: white !important;
+  border-radius: 5px !important;
+}
+
+.point-left {
+  fill: #08b7ce !important;
+}
+
+.wc-textbox {
+  color: black !important;
+}
+
+.scroll  {
+  background-color: #767676 !important;
+}
+
+.wc-message-pane .show-actions .wc-suggested-actions {
+  margin-bottom: 10px !important;
+}
+
+.wc-suggested-actions {
+  margin-bottom: 10px !important;
+}
+
+.wc-console .wc-textbox input {
+  margin-left: -30px !important;
+
+}
+
+
