@@ -128,7 +128,8 @@ class TopLevelDialog(ComponentDialog):
     async def temparature_step(self, step_context: WaterfallStepContext) -> DialogTurnResult:
         # Set the user's name to what they entered in response to the name prompt.
         user_profile: UserProfile = step_context.values[self.USER_INFO]
-        user_profile.symptoms = step_context.result
+        user_profile.symptoms = step_context.result[0]
+        user_profile.symptoms_dates = step_context.result[1]
         print("[DEBUG] Symptoms are " + str(user_profile.symptoms))
         if user_profile.symptoms is not None and len(user_profile.symptoms) > 0 and (any(user_profile.symptoms) is x for x in ['Husten', 'Lungenentzündung', 'Fieber']):
             print("[DEBUG] Setting critical symtoms bool to true with symptoms " + str(user_profile.symptoms))
