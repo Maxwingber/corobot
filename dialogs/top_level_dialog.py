@@ -288,12 +288,12 @@ class TopLevelDialog(ComponentDialog):
 
         #time.sleep(1)
         # Thank them for participating.
-        await step_context.context.send_activity(
-            MessageFactory.text(f"Danke für Ihre Mithilfe und das Beantworten der Fragen, {user_profile.name}. Bitte halten Sie sich an die aktuell geltenden Regelungen und Empfehlungen der Behörden und des Robert-Koch-Instituts (rki.de).")
-        )
+        #await step_context.context.send_activity(
+        #    MessageFactory.text(f"Danke für Ihre Mithilfe und das Beantworten der Fragen, {user_profile.name}. Bitte halten Sie sich an die aktuell geltenden Regelungen und Empfehlungen der Behörden und des Robert-Koch-Instituts (rki.de).")
+        #)
         #time.sleep(1)
         await step_context.context.send_activity(
-            MessageFactory.text(f"Bei weiterer Kommunikation mit Behörden können Sie folgende Zeile anhängen und sparen "
+            MessageFactory.text(f"Bei weiterer Kommunikation mit Behörden können Sie folgende Zusammenfassung anhängen und sparen "
                                 f"sich lästige erneute Nachfragen.")
         )
         ausgabe = "**Wichtige Daten für Ihr Gesundheitsamt**\n\n"
