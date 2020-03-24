@@ -1,7 +1,8 @@
 *Dieses Projekt ist WORK IN PROGRESS und nur zu Testzwecken zu verwenden.*
 ![WirVsVirus Hackathon Logo](assets/Logo_Projekt_01.png)
 # Corobot 
-[**Link zum Protoyp**](https://corobot2020.z16.web.core.windows.net/)
+
+## [**Link zum Protoyp**](https://corobot2020.z16.web.core.windows.net/)
 
 [**Link zur DevPost-Projektseite**](https://devpost.com/software/01_011_infektionsfall-ubermittlung_corobot-4pq92g)
 ## Überblick
