@@ -1,4 +1,4 @@
-*Dieses Projekt ist WORK IN PROGRESS und nur zu Testzwecken zu verwenden.*
+**Nach dem WirVsVirus-Hackathon wurde dieses Projekt nach [github.com/corobot-de/corobot](https://github.com/corobot-de/corobot) umgezogen. Dieses Repository wird nicht mehr gepflegt. **
 ![WirVsVirus Hackathon Logo](assets/Logo_Projekt_01.png)
 # Corobot 
 
